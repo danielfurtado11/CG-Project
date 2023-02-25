@@ -1,2 +1,1 @@
-# CG-Project
-Trabalho de Computação Gráfica
+# Trabalho de Computação Gráfica
