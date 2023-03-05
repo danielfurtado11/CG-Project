@@ -171,6 +171,48 @@ vector <Ponto> cone(float raio, float altura, int slices, int stacks){
     return pontos;
 }
 
+vector<Ponto> sphere(float raio, int slices, int stacks){
+    vector<Ponto> pontos;
+
+	float angulo_default_slice = (2 * M_PI) / slices;
+	float angulo_default_stack = M_PI / stacks;
+
+	for (int i = 0; i < slices; i++) {
+
+		float aSlice = i * angulo_default_slice;
+		float temp_aSlice = aSlice + angulo_default_slice;
+
+		float aStack = - M_PI_2;
+		float temp_aStack = aStack + angulo_default_stack;
+		
+		for (int j = 0; j < stacks; j++){
+			if(j == 0){
+                pontos.push_back(Ponto(0.0, -raio, 0.0));
+                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice)));
+                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin (temp_aStack) , raio * cos(temp_aStack) * cos(aSlice)));
+
+			}else if(j == stacks-1){
+                pontos.push_back(Ponto(0.0, raio, 0.0));
+                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
+                pontos.push_back(Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice)));
+				
+			}else{
+                pontos.push_back(Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice)));
+                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
+                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice)));
+
+                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
+                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice)));
+                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice)));
+            }  
+			aStack += angulo_default_stack;
+			temp_aStack += angulo_default_stack;
+		}
+	}
+	return pontos;
+}
+
+
 void writePointsToFile(vector<Ponto> points, string filename) {
     ofstream arquivo(filename);
     arquivo << points.size() << "\n";
@@ -201,6 +243,10 @@ int main(int argc, char** argv){
     else if (strcmp(argv[1], "cone") == 0){
         pontos = cone(stof(argv[2]), stof(argv[3]), stof(argv[4]), stof(argv[5]));
         writePointsToFile(pontos, argv[6]);
+    }
+    else if (strcmp(argv[1], "sphere") == 0){
+        pontos = sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]));
+        writePointsToFile(pontos, argv[5]);
     }
     else printf("Erro no input");
     
