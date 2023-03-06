@@ -1,6 +1,7 @@
 
 generate:
-	g++ generator.cpp ponto.cpp -o generator
+	g++ generator.cpp ponto.cpp engine.cpp -o generator
+
 
 clean:
 	rm -f generator
