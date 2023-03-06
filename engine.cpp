@@ -51,11 +51,11 @@ int main() {
         modelsList.push_back(file);
     }   
 
-// print the model file names stored in the vector
-std::cout << "Model files:\n";
-for (auto const& file : modelsList) {
-    std::cout << "- " << file << std::endl;
-}
+    // print the model file names stored in the vector
+    std::cout << "Model files:\n";
+    for (auto const& file : modelsList) {
+        std::cout << "- " << file << std::endl;
+    }
 
 
     // print the extracted information
