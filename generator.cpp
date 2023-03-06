@@ -231,22 +231,31 @@ void writePointsToFile(vector<Ponto> points, string filename) {
 
 int main(int argc, char** argv){
     vector<Ponto> pontos;
+    string file;
 
     if (strcmp(argv[1],"plane") == 0){
         pontos = plane(stof(argv[2]), stof(argv[3]));
-        writePointsToFile(pontos,argv[4]);
+        file = argv[4];
+        file = "3dFiles/" + file;
+        writePointsToFile(pontos,file);
     }
     else if (strcmp(argv[1],"box") == 0){
         pontos = box(stof(argv[2]), stof(argv[3]));
-        writePointsToFile(pontos, argv[4]);
+        file = argv[4];
+        file = "3dFiles/" + file;
+        writePointsToFile(pontos, file);
     }
     else if (strcmp(argv[1], "cone") == 0){
         pontos = cone(stof(argv[2]), stof(argv[3]), stof(argv[4]), stof(argv[5]));
-        writePointsToFile(pontos, argv[6]);
+        file = argv[6];
+        file = "3dFiles/" + file;
+        writePointsToFile(pontos, file);
     }
     else if (strcmp(argv[1], "sphere") == 0){
         pontos = sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]));
-        writePointsToFile(pontos, argv[5]);
+        file = argv[5];
+        file = "3dFiles/" + file;
+        writePointsToFile(pontos, file);
     }
     else printf("Erro no input");
     
