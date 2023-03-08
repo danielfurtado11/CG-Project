@@ -6,36 +6,72 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
+#include <GL/glut.h>
 #endif
 #include <math.h>
 #include <sstream>
+
+GLdouble x_rotations = 0.0;
+GLdouble y_rotations = 0.0;
+GLdouble z_rotations = 0.0;
+GLdouble x_offset = 0.0;
+GLdouble y_offset = 0.0;
+GLdouble z_offset = 0.0;
+GLdouble height = 4.0;
+GLdouble scale_axis = 1.0;
+GLenum gl_mode = GL_FILL;
+
+#define X_ROTATIONS_INC 5.0
+#define Y_ROTATIONS_INC 5.0
+#define Z_ROTATIONS_INC 5.0
+#define X_OFFSET_INC 0.5
+#define Y_OFFSET_INC 0.5
+#define Z_OFFSET_INC 0.5
+#define HEIGHT_INC 0.5
+#define SCALE_INC 0.1
 
 GLenum modo = GL_FILL;
 std::vector<std::string> modelsList;
 
 void drawObject(){
+    
     for (size_t i = 0; i < modelsList.size(); i++){
-             
-        std::ifstream file(modelsList[i]);  
+        std::ifstream file("3dFiles/" + modelsList[i]) ;  
 
         if (file.is_open()) {
-        std::string line;
-        int j =0;
-        while (std::getline(file, line)) {
-            if(i!=0){
-                std::vector<std::string> row; // create vector to hold row data
-                std::stringstream ss(line); // create stringstream from line
+            std::cout << modelsList[i] << std::endl;
+            std::string line;
+            int j =0;
+            int jx = 0;
+            std::vector<std::string> jacinto;
 
-                std::string cell;
-                while (std::getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
-                    row.push_back(cell);
-                }
-                glBegin(GL_TRIANGLES);
+
+
+            while (std::getline(file, line)) {
+
+                if(j!=0){
+                    std::vector<std::string> row; // create vector to hold row data
+                    std::stringstream ss(line); // create stringstream from line
+
+
+                    std::string cell;
+                    while (std::getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
+                        row.push_back(cell);
+                    }
+
+                    if (jx == 0){
+                        glBegin(GL_TRIANGLES);
+                    }
+                    jx += 1;
+                    glColor3f(jx/3, jx/3,jx/3);
                     glVertex3f(std::stof(row[0]),std::stof(row[1]),std::stof(row[2]));
-                glEnd();
-                j=1; 
-            }               
-        }
+                    if (jx == 3){
+                        glEnd();
+                        jx = 0;
+                    }
+                }    
+                j=1;            
+            }
         file.close(); // close the file
         }else {
             std::cerr << "Unable to open file." << std::endl;
@@ -101,14 +137,51 @@ void renderScene(void) {
 		glVertex3f(0.0f, 0.0f, 50.0f);
 	glEnd();
 
+    glTranslatef(x_offset, y_offset, z_offset);
+    glRotatef(x_rotations, 1.0, 0.0, 0.0);
+    glRotatef(y_rotations, 0.0, 1.0, 0.0);
+    glRotatef(z_rotations, 0.0, 0.0, 1.0);
+    glScalef(scale_axis, scale_axis, scale_axis);
+
     drawObject();
-    
-    
+
+
     
 	
 	glutPostRedisplay();
 	// End of frame
 	glutSwapBuffers();
+}
+
+void myKeyboardFunc(unsigned char key, int x, int y)
+{
+    switch (key) {
+        case 'w': y_offset += Y_OFFSET_INC; break;
+        case 's': y_offset -= Y_OFFSET_INC; break;
+        case 'a': x_offset -= X_OFFSET_INC; break;
+        case 'd': x_offset += X_OFFSET_INC; break;
+        case 'q': z_offset -= Z_OFFSET_INC; break;
+        case 'e': z_offset += Z_OFFSET_INC; break;
+        case 'r': y_rotations += Y_ROTATIONS_INC; break;
+        case 'f': y_rotations -= Y_ROTATIONS_INC; break;
+        case 't': x_rotations += X_ROTATIONS_INC; break;
+        case 'g': x_rotations -= X_ROTATIONS_INC; break;
+        case 'y': z_rotations += Z_ROTATIONS_INC; break;
+        case 'h': z_rotations -= Z_ROTATIONS_INC; break;
+        case 'z':
+            height += HEIGHT_INC;
+            if (height > 10.0) height = 10.0;
+            break;
+        case 'x':
+            height -= HEIGHT_INC;
+            if (height < 0.0) height = 0.0;
+            break;
+        case '+': scale_axis += SCALE_INC; break;
+        case '-': scale_axis -= SCALE_INC; break;
+        case 'b': modo = GL_POINT; break;
+        case 'n': modo = GL_LINE; break;
+        case 'm': modo = GL_FILL; break;
+    }
 }
 
 
@@ -187,6 +260,7 @@ int main(int argc , char** argv) {
     // Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
+    glutKeyboardFunc(myKeyboardFunc);
 
     //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
