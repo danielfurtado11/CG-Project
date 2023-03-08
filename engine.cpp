@@ -11,6 +11,8 @@
 #include <math.h>
 #include <sstream>
 
+using namespace std;
+
 GLdouble x_rotations = 0.0;
 GLdouble y_rotations = 0.0;
 GLdouble z_rotations = 0.0;
@@ -31,31 +33,31 @@ GLenum gl_mode = GL_FILL;
 #define SCALE_INC 0.1
 
 GLenum modo = GL_FILL;
-std::vector<std::string> modelsList;
+vector<string> modelsList;
 
 void drawObject(){
     
     for (size_t i = 0; i < modelsList.size(); i++){
-        std::ifstream file("3dFiles/" + modelsList[i]) ;  
+        ifstream file("3dFiles/" + modelsList[i]) ;  
 
         if (file.is_open()) {
-            std::cout << modelsList[i] << std::endl;
-            std::string line;
+            cout << modelsList[i] << endl;
+            string line;
             int j =0;
             int jx = 0;
-            std::vector<std::string> jacinto;
+            vector<string> jacinto;
 
 
 
             while (std::getline(file, line)) {
 
                 if(j!=0){
-                    std::vector<std::string> row; // create vector to hold row data
-                    std::stringstream ss(line); // create stringstream from line
+                    vector<string> row; // create vector to hold row data
+                    stringstream ss(line); // create stringstream from line
 
 
-                    std::string cell;
-                    while (std::getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
+                    string cell;
+                    while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
                         row.push_back(cell);
                     }
 
@@ -64,7 +66,7 @@ void drawObject(){
                     }
                     jx += 1;
                     glColor3f(jx/3, jx/3,jx/3);
-                    glVertex3f(std::stof(row[0]),std::stof(row[1]),std::stof(row[2]));
+                    glVertex3f(stof(row[0]),stof(row[1]),stof(row[2]));
                     if (jx == 3){
                         glEnd();
                         jx = 0;
@@ -74,7 +76,7 @@ void drawObject(){
             }
         file.close(); // close the file
         }else {
-            std::cerr << "Unable to open file." << std::endl;
+            cerr << "Unable to open file." << endl;
         }
     }
 }
