@@ -13,24 +13,11 @@
 
 using namespace std;
 
-GLdouble x_rotations = 0.0;
-GLdouble y_rotations = 0.0;
-GLdouble z_rotations = 0.0;
-GLdouble x_offset = 0.0;
-GLdouble y_offset = 0.0;
-GLdouble z_offset = 0.0;
-GLdouble height = 4.0;
-GLdouble scale_axis = 1.0;
-GLenum gl_mode = GL_FILL;
 
-#define X_ROTATIONS_INC 5.0
-#define Y_ROTATIONS_INC 5.0
-#define Z_ROTATIONS_INC 5.0
-#define X_OFFSET_INC 0.5
-#define Y_OFFSET_INC 0.5
-#define Z_OFFSET_INC 0.5
-#define HEIGHT_INC 0.5
-#define SCALE_INC 0.1
+
+GLdouble alpha_angle = M_PI / 4;
+GLdouble beta_angle = M_PI / 6;
+GLdouble gamma_value = 40.0;
 
 GLenum modo = GL_FILL;
 vector<string> modelsList;
@@ -114,9 +101,9 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity(); // Destroi todas as entidades feitas, é mesmo necessário acontecer
-	gluLookAt(6.0,6.0,6.0, 
-		      0.0,0.0,0.0,
-			  0.0f,1.0f,0.0f);
+	gluLookAt(sin(alpha_angle)*cos(beta_angle)*gamma_value, sin(beta_angle)*gamma_value, cos(alpha_angle)*cos(beta_angle)*gamma_value,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
 
 	glPolygonMode(GL_FRONT_AND_BACK, modo);
 
@@ -136,11 +123,7 @@ void renderScene(void) {
 		glVertex3f(0.0f, 0.0f, 50.0f);
 	glEnd();
 
-    glTranslatef(x_offset, y_offset, z_offset);
-    glRotatef(x_rotations, 1.0, 0.0, 0.0);
-    glRotatef(y_rotations, 0.0, 1.0, 0.0);
-    glRotatef(z_rotations, 0.0, 0.0, 1.0);
-    glScalef(scale_axis, scale_axis, scale_axis);
+
 
     drawObject();
 
@@ -152,31 +135,20 @@ void renderScene(void) {
 	glutSwapBuffers();
 }
 
-void myKeyboardFunc(unsigned char key, int x, int y)
-{
+void myKeyboardFunc(unsigned char key, int x, int y) {
     switch (key) {
-        case 'w': y_offset += Y_OFFSET_INC; break;
-        case 's': y_offset -= Y_OFFSET_INC; break;
-        case 'a': x_offset -= X_OFFSET_INC; break;
-        case 'd': x_offset += X_OFFSET_INC; break;
-        case 'q': z_offset -= Z_OFFSET_INC; break;
-        case 'e': z_offset += Z_OFFSET_INC; break;
-        case 'r': y_rotations += Y_ROTATIONS_INC; break;
-        case 'f': y_rotations -= Y_ROTATIONS_INC; break;
-        case 't': x_rotations += X_ROTATIONS_INC; break;
-        case 'g': x_rotations -= X_ROTATIONS_INC; break;
-        case 'y': z_rotations += Z_ROTATIONS_INC; break;
-        case 'h': z_rotations -= Z_ROTATIONS_INC; break;
-        case 'z':
-            height += HEIGHT_INC;
-            if (height > 10.0) height = 10.0;
+        case 'a': alpha_angle -= M_PI / 32; break;
+        case 'd': alpha_angle += M_PI / 32; break;
+        case 'w':
+            beta_angle += M_PI / 32;
+            if (beta_angle > 1.5) beta_angle = 1.5;
             break;
-        case 'x':
-            height -= HEIGHT_INC;
-            if (height < 0.0) height = 0.0;
+        case 's':
+            beta_angle -= M_PI / 32;
+            if (beta_angle < -1.5) beta_angle = -1.5;
             break;
-        case '+': scale_axis += SCALE_INC; break;
-        case '-': scale_axis -= SCALE_INC; break;
+        case 'q': gamma_value -= 0.5; break;
+        case 'e': gamma_value += 0.5; break;
         case 'b': modo = GL_POINT; break;
         case 'n': modo = GL_LINE; break;
         case 'm': modo = GL_FILL; break;
