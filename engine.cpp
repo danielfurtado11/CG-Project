@@ -41,13 +41,11 @@ void drawObject(){
         ifstream file("3dFiles/" + modelsList[i]) ;  
 
         if (file.is_open()) {
-            cout << modelsList[i] << endl;
+            
             string line;
             int j =0;
             int jx = 0;
             vector<string> jacinto;
-
-
 
             while (std::getline(file, line)) {
 
@@ -65,7 +63,6 @@ void drawObject(){
                         glBegin(GL_TRIANGLES);
                     }
                     jx += 1;
-                    glColor3f(jx/3, jx/3,jx/3);
                     glVertex3f(stof(row[0]),stof(row[1]),stof(row[2]));
                     if (jx == 3){
                         glEnd();
@@ -191,7 +188,7 @@ int main(int argc , char** argv) {
 
     // load the XML file
     tinyxml2::XMLDocument doc;
-    doc.LoadFile("example.xml");    
+    doc.LoadFile(argv[1]);    
 
     // get the root element
     tinyxml2::XMLElement* root = doc.FirstChildElement("world");   
@@ -245,13 +242,6 @@ int main(int argc , char** argv) {
         std::cout << "- " << file << std::endl;
     }
 
-    // print the extracted information
-    std::cout << "Window width: " << width << ", height: " << height << std::endl;
-    std::cout << "Camera position: (" << x << ", " << y << ", " << z << ")" << std::endl;
-    std::cout << "Camera lookAt: (" << lookAtX << ", " << lookAtY << ", " << lookAtZ << ")" << std::endl;
-    std::cout << "Camera up: (" << upX << ", " << upY << ", " << upZ << ")" << std::endl;
-    std::cout << "Camera projection fov: " << fov << ", near: " << near << ", far: " << far << std::endl;   
-    
     // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
