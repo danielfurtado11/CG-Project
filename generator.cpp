@@ -139,32 +139,31 @@ vector<Ponto> box(float dim,float div){
 vector <Ponto> cone(float raio, float altura, int slices, int stacks){
     vector<Ponto> pontos;
     float angulo = (2*M_PI)/slices;
-    altura = altura / stacks;
-    for(int j = 0; j < stacks; j++){        //stacks
+    float alturaStack = altura / stacks;
+    for(int j = 0; j < stacks; j++){
         
-        float raioBaixo = (stacks - j)*(raio/stacks);
-        float raioCima = (stacks - (j + 1))*(raio/stacks);
-        
-        for(int i = 0; i < slices;i++){        //slices
+        float raioBot = (stacks - j)*(raio/stacks);
+        float raioUp = (stacks - (j + 1))*(raio/stacks);
+        for(int i = 0; i < slices;i++){
 
             float angulo_inicial = i * angulo;
             float angulo_final = angulo_inicial + angulo;
 
-            //triangulo com base em baixo, apontado para cima
-            pontos.push_back(Ponto(sin(angulo_final)*raioCima, (j+1)*altura, cos(angulo_final)*raioCima));
-            pontos.push_back(Ponto(sin(angulo_inicial)*raioBaixo, j*altura, cos(angulo_inicial)*raioBaixo));
-            pontos.push_back(Ponto(sin(angulo_final)*raioBaixo, j*altura, cos(angulo_final)*raioBaixo));
+
+            pontos.push_back(Ponto(sin(angulo_final)*raioUp, (j+1)*alturaStack, cos(angulo_final)*raioUp));
+            pontos.push_back(Ponto(sin(angulo_inicial)*raioBot, j*alturaStack, cos(angulo_inicial)*raioBot));
+            pontos.push_back(Ponto(sin(angulo_final)*raioBot, j*alturaStack, cos(angulo_final)*raioBot));
     
             if(j != stacks){
-                pontos.push_back(Ponto(sin(angulo_inicial)*raioBaixo, j*altura, cos(angulo_inicial)*raioBaixo));
-                pontos.push_back(Ponto(sin(angulo_final)*raioCima, (j+1)*altura, cos(angulo_final)*raioCima));
-                pontos.push_back(Ponto(sin(angulo_inicial)*raioCima, (j+1)*altura, cos(angulo_inicial)*raioCima));
+                pontos.push_back(Ponto(sin(angulo_inicial)*raioBot, j*alturaStack, cos(angulo_inicial)*raioBot));
+                pontos.push_back(Ponto(sin(angulo_final)*raioUp, (j+1)*alturaStack, cos(angulo_final)*raioUp));
+                pontos.push_back(Ponto(sin(angulo_inicial)*raioUp, (j+1)*alturaStack, cos(angulo_inicial)*raioUp));
             }
 
-            //base de baixo
-            pontos.push_back(Ponto(0,j*altura,0));
-            pontos.push_back(Ponto(sin(angulo_final)*raioBaixo, j*altura, cos(angulo_final)*raioBaixo));
-            pontos.push_back(Ponto(sin(angulo_inicial)*raioBaixo, j*altura, cos(angulo_inicial)*raioBaixo));
+
+            pontos.push_back(Ponto(0,j*alturaStack,0));
+            pontos.push_back(Ponto(sin(angulo_final)*raioBot, j*alturaStack, cos(angulo_final)*raioBot));
+            pontos.push_back(Ponto(sin(angulo_inicial)*raioBot, j*alturaStack, cos(angulo_inicial)*raioBot));
         }
     }    
 

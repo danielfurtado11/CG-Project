@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/generator.dir/generator.cpp.o CMakeFiles/generator.dir/ponto.cpp.o -o generator 

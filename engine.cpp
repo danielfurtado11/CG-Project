@@ -6,40 +6,61 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
+#include <GL/glut.h>
 #endif
 #include <math.h>
 #include <sstream>
 #include "transformations.h"
+
+using namespace std;
+
+
+
+GLdouble alpha_angle = M_PI / 4;
+GLdouble beta_angle = M_PI / 6;
+GLdouble gamma_value = 40.0;
 
 GLenum modo = GL_FILL;
 std::vector<std::string> groupList;
 
 void drawObject(std::vector<std::string> modelsList){
     for (size_t i = 0; i < modelsList.size(); i++){
-             
-        std::ifstream file(modelsList[i]);  
+        ifstream file("3dFiles/" + modelsList[i]) ;  
 
         if (file.is_open()) {
-        std::string line;
-        int j =0;
-        while (std::getline(file, line)) {
-            if(i!=0){
-                std::vector<std::string> row; // create vector to hold row data
-                std::stringstream ss(line); // create stringstream from line
+            
+            string line;
+            int j =0;
+            int jx = 0;
+            vector<string> jacinto;
 
-                std::string cell;
-                while (std::getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
-                    row.push_back(cell);
-                }
-                glBegin(GL_TRIANGLES);
-                    glVertex3f(std::stof(row[0]),std::stof(row[1]),std::stof(row[2]));
-                glEnd();
-                j=1; 
-            }               
-        }
+            while (std::getline(file, line)) {
+
+                if(j!=0){
+                    vector<string> row; // create vector to hold row data
+                    stringstream ss(line); // create stringstream from line
+
+
+                    string cell;
+                    while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
+                        row.push_back(cell);
+                    }
+
+                    if (jx == 0){
+                        glBegin(GL_TRIANGLES);
+                    }
+                    jx += 1;
+                    glVertex3f(stof(row[0]),stof(row[1]),stof(row[2]));
+                    if (jx == 3){
+                        glEnd();
+                        jx = 0;
+                    }
+                }    
+                j=1;            
+            }
         file.close(); // close the file
         }else {
-            std::cerr << "Unable to open file." << std::endl;
+            cerr << "Unable to open file." << endl;
         }
     }
 }
@@ -114,9 +135,9 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity(); // Destroi todas as entidades feitas, é mesmo necessário acontecer
-	gluLookAt(6.0,6.0,6.0, 
-		      0.0,0.0,0.0,
-			  0.0f,1.0f,0.0f);
+	gluLookAt(sin(alpha_angle)*cos(beta_angle)*gamma_value, sin(beta_angle)*gamma_value, cos(alpha_angle)*cos(beta_angle)*gamma_value,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
 
 	glPolygonMode(GL_FRONT_AND_BACK, modo);
 
@@ -144,6 +165,28 @@ void renderScene(void) {
 	// End of frame
 	glutSwapBuffers();
 }
+
+void myKeyboardFunc(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'a': alpha_angle -= M_PI / 32; break;
+        case 'd': alpha_angle += M_PI / 32; break;
+        case 'w':
+            beta_angle += M_PI / 32;
+            if (beta_angle > 1.5) beta_angle = 1.5;
+            break;
+        case 's':
+            beta_angle -= M_PI / 32;
+            if (beta_angle < -1.5) beta_angle = -1.5;
+            break;
+        case 'q': gamma_value -= 0.5; break;
+        case 'e': gamma_value += 0.5; break;
+        case 'b': modo = GL_POINT; break;
+        case 'n': modo = GL_LINE; break;
+        case 'm': modo = GL_FILL; break;
+    }
+}
+
+
 int main(int argc , char** argv) {
 // load the XML file
     tinyxml2::XMLDocument doc;
