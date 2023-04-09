@@ -9,11 +9,12 @@
 #endif
 #include <math.h>
 #include <sstream>
+#include "transformations.h"
 
 GLenum modo = GL_FILL;
-std::vector<std::string> modelsList;
+std::vector<std::string> groupList;
 
-void drawObject(){
+void drawObject(std::vector<std::string> modelsList){
     for (size_t i = 0; i < modelsList.size(); i++){
              
         std::ifstream file(modelsList[i]);  
@@ -41,6 +42,40 @@ void drawObject(){
             std::cerr << "Unable to open file." << std::endl;
         }
     }
+}
+
+void drawGroup(Group g){
+
+	// Drawing objects in this group
+	std::vector<std::string> modelsList = g.getmodelsList();
+	drawObject(modelsList);
+
+    vector<Transformation*> tV = g.getTransformations();
+	for (Transformation* t : tV) {
+		Translacao* tT = dynamic_cast<Translacao*>(t);
+		if (tT) {
+			glTranslatef(tT->getX(), tT->getY(), tT->getZ());
+			continue;
+		}
+
+		Rotacao* tR = dynamic_cast<Rotacao*>(t);
+		if (tR) {
+			glRotatef(tR->getAngle(), tR->getAxisX(), tR->getAxisY(), tR->getAxisZ());
+			continue;
+		}
+
+		Escala* tS = dynamic_cast<Escala*>(t);
+		if (tS) {
+			glScalef(tS->getX(), tS->getY(), tS->getZ());
+			continue;
+		}
+	}
+
+	// Drawing groups in this group
+	vector<Group> groups = g.getGroups();
+	for (Group group : groups) {
+		drawGroup(group);
+	}
 }
 
 void changeSize(int w, int h) {
@@ -101,22 +136,18 @@ void renderScene(void) {
 		glVertex3f(0.0f, 0.0f, 50.0f);
 	glEnd();
 
-    drawObject();
-    
-    
-    
-	
+    for(Group g : groupList){
+        drawGroup(g);
+    }
+  
 	glutPostRedisplay();
 	// End of frame
 	glutSwapBuffers();
 }
-
-
 int main(int argc , char** argv) {
-
-    // load the XML file
+// load the XML file
     tinyxml2::XMLDocument doc;
-    doc.LoadFile("example.xml");    
+    doc.LoadFile(argv[1]);    
 
     // get the root element
     tinyxml2::XMLElement* root = doc.FirstChildElement("world");   
@@ -146,37 +177,71 @@ int main(int argc , char** argv) {
     double near = projection->DoubleAttribute("near");
     double far = projection->DoubleAttribute("far");    
 
-    // get the models element
-    tinyxml2::XMLElement* models = root->FirstChildElement("group")
-                                        ->FirstChildElement("models");
-    // declare a vector to store the model file names
-    
 
-    // iterate over all model child elements
-    for (tinyxml2::XMLElement* model = models->FirstChildElement("model");
-        model != nullptr;
-        model = model->NextSiblingElement("model")) {  
 
-        // extract the file attribute value of the current model element
-        const char* file = model->Attribute("file");
+    // iterate over all groups
 
-        // add the file attribute value to the vector
-        modelsList.push_back(file);
-    }   
+    for (tinyxml2::XMLElement* child = root->FirstChildElement("group"); 
+        child != nullptr; 
+        child = child->NextSiblingElement()) {
+        
+        Group group = Group();
+        std::vector<std::string> modelsList={};
+        const char* elemento = child->Value();
+        if (strcmp(elemento, "transform") == 0) {
 
-    // print the model file names stored in the vector
-    std::cout << "Model files:\n";
-    for (auto const& file : modelsList) {
-        std::cout << "- " << file << std::endl;
+            for (tinyxml2::XMLElement* childDois = child->FirstChildElement(); 
+            childDois != nullptr; 
+            childDois = childDois->NextSiblingElement()) {
+                const char* elemento = childDois->Value();
+                
+                if(strcmp(elemento, "translate") == 0){
+                    double x = childDois->DoubleAttribute("x");
+                    double y = childDois->DoubleAttribute("y");
+                    double z = childDois->DoubleAttribute("z");
+                    group.addTranslacao(x,y,z);
+                }
+                else if (strcmp(elemento, "rotate") == 0) {
+                    double angle = childDois->DoubleAttribute("angle");
+                    double x = childDois->DoubleAttribute("x");
+                    double y = childDois->DoubleAttribute("y");
+                    double z = childDois->DoubleAttribute("z");
+                    group.addRotacao(angle,x,y,z);
+                }
+                else if (strcmp(elemento, "scale") == 0) {
+                    double x = childDois->DoubleAttribute("x");
+                    double y = childDois->DoubleAttribute("y");
+                    double z = childDois->DoubleAttribute("z");
+                    group.addEscala(x,y,z);
+                }
+                else {
+                    std::cout << "Erro no Transform\n";
+                }
+            }
+
+
+        } else if (strcmp(elemento, "models") == 0) {
+            for (tinyxml2::XMLElement* model = child->FirstChildElement("model");
+                model != nullptr;
+                model = model->NextSiblingElement("model")) {  
+                
+                
+                // extract the file attribute value of the current model element
+                const char* file = model->Attribute("file");
+
+                // add the file attribute value to the vector
+
+                modelsList.push_back(file);
+            }       
+            
+        } else if (strcmp(elemento, "group") == 0) {
+            child = child->FirstChildElement("group");
+        } else {
+            std::cout << "Erro no XML\n";
+        }
+        groupList.push_back(group);
     }
 
-    // print the extracted information
-    std::cout << "Window width: " << width << ", height: " << height << std::endl;
-    std::cout << "Camera position: (" << x << ", " << y << ", " << z << ")" << std::endl;
-    std::cout << "Camera lookAt: (" << lookAtX << ", " << lookAtY << ", " << lookAtZ << ")" << std::endl;
-    std::cout << "Camera up: (" << upX << ", " << upY << ", " << upZ << ")" << std::endl;
-    std::cout << "Camera projection fov: " << fov << ", near: " << near << ", far: " << far << std::endl;   
-    
     // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
@@ -187,6 +252,7 @@ int main(int argc , char** argv) {
     // Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
+    glutKeyboardFunc(myKeyboardFunc);
 
     //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
