@@ -21,7 +21,7 @@ GLdouble beta_angle = M_PI / 6;
 GLdouble gamma_value = 40.0;
 
 GLenum modo = GL_FILL;
-std::vector<std::string> groupList;
+std::vector<Group> groupList;
 
 void drawObject(std::vector<std::string> modelsList){
     for (size_t i = 0; i < modelsList.size(); i++){
@@ -68,7 +68,7 @@ void drawObject(std::vector<std::string> modelsList){
 void drawGroup(Group g){
 
 	// Drawing objects in this group
-	std::vector<std::string> modelsList = g.getmodelsList();
+	std::vector<std::string> modelsList = g.getModelsList();
 	drawObject(modelsList);
 
     vector<Transformation*> tV = g.getTransformations();
@@ -81,7 +81,7 @@ void drawGroup(Group g){
 
 		Rotacao* tR = dynamic_cast<Rotacao*>(t);
 		if (tR) {
-			glRotatef(tR->getAngle(), tR->getAxisX(), tR->getAxisY(), tR->getAxisZ());
+			glRotatef(tR->getAng(), tR->getX(), tR->getY(), tR->getZ());
 			continue;
 		}
 
@@ -220,23 +220,26 @@ int main(int argc , char** argv) {
     double near = projection->DoubleAttribute("near");
     double far = projection->DoubleAttribute("far");    
 
-
+    
 
     // iterate over all groups
-
-    for (tinyxml2::XMLElement* child = root->FirstChildElement("group"); 
+    std::cout << "Tou fora do ciclo\n";
+    for (tinyxml2::XMLElement* child = root->FirstChildElement("group")->FirstChildElement(); 
         child != nullptr; 
-        child = child->NextSiblingElement()) {
-        
+        ) {
+        std::cout << "Entrei no ciclo\n";
         Group group = Group();
         std::vector<std::string> modelsList={};
         const char* elemento = child->Value();
+        std::cout << "Elemento: " << elemento << "\n";
         if (strcmp(elemento, "transform") == 0) {
-
+            std::cout << "Entrei no Transform\n";
             for (tinyxml2::XMLElement* childDois = child->FirstChildElement(); 
             childDois != nullptr; 
             childDois = childDois->NextSiblingElement()) {
                 const char* elemento = childDois->Value();
+                
+
                 
                 if(strcmp(elemento, "translate") == 0){
                     double x = childDois->DoubleAttribute("x");
@@ -261,6 +264,7 @@ int main(int argc , char** argv) {
                     std::cout << "Erro no Transform\n";
                 }
             }
+            child = child->NextSiblingElement();
 
 
         } else if (strcmp(elemento, "models") == 0) {
@@ -271,14 +275,16 @@ int main(int argc , char** argv) {
                 
                 // extract the file attribute value of the current model element
                 const char* file = model->Attribute("file");
+                std::cout << "Model: " << file << "\n";
 
                 // add the file attribute value to the vector
 
                 modelsList.push_back(file);
-            }       
+            }
+            child = child->NextSiblingElement();      
             
         } else if (strcmp(elemento, "group") == 0) {
-            child = child->FirstChildElement("group");
+            child = child->FirstChildElement();
         } else {
             std::cout << "Erro no XML\n";
         }
