@@ -70,6 +70,11 @@ void drawGroup(Group g){
 	// Drawing objects in this group
 	std::vector<std::string> modelsList = g.getModelsList();
 	drawObject(modelsList);
+    
+	vector<Group> groups = g.getGroups();
+	for (Group group : groups) {
+		drawGroup(group);
+	}
 
     vector<Transformation*> tV = g.getTransformations();
 	for (Transformation* t : tV) {
@@ -93,10 +98,7 @@ void drawGroup(Group g){
 	}
 
 	// Drawing groups in this group
-	vector<Group> groups = g.getGroups();
-	for (Group group : groups) {
-		drawGroup(group);
-	}
+
 }
 
 void changeSize(int w, int h) {
@@ -221,15 +223,14 @@ int main(int argc , char** argv) {
     double far = projection->DoubleAttribute("far");    
 
     
-
+    Group group = Group();
     // iterate over all groups
     std::cout << "Tou fora do ciclo\n";
     for (tinyxml2::XMLElement* child = root->FirstChildElement("group")->FirstChildElement(); 
         child != nullptr; 
         ) {
         std::cout << "Entrei no ciclo\n";
-        Group group = Group();
-        std::vector<std::string> modelsList={};
+
         const char* elemento = child->Value();
         std::cout << "Elemento: " << elemento << "\n";
         if (strcmp(elemento, "transform") == 0) {
@@ -279,17 +280,19 @@ int main(int argc , char** argv) {
 
                 // add the file attribute value to the vector
 
-                modelsList.push_back(file);
+                group.addModels(file);
             }
             child = child->NextSiblingElement();      
             
         } else if (strcmp(elemento, "group") == 0) {
             child = child->FirstChildElement();
+            groupList.push_back(group); // Fix
+            Group group = Group();
         } else {
             std::cout << "Erro no XML\n";
         }
-        groupList.push_back(group);
     }
+
 
     // init GLUT and the window
 	glutInit(&argc, argv);
