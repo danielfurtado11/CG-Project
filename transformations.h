@@ -12,6 +12,21 @@ class Transformation {
         virtual void smt(){};
 };
 
+class Color {
+    private:
+        float r, g, b;
+    public:
+        float getR() {return this->r;};
+        float getG() {return this->g;};
+        float getB() {return this->b;};
+        Color();
+        Color(float r, float g, float b) {
+            this->r = r;
+            this->g = g;
+            this->b = b;
+        };
+};
+
 class Translacao : public Transformation {
     private:
         float x, y, z;
@@ -64,6 +79,7 @@ class Group {
         vector<Transformation*> transformations;
         vector<string> modelsList;
         vector<Group> groups;
+        Color* color;
     public:
         Group();
         void addTranslacao(float x, float y, float z);
@@ -76,6 +92,9 @@ class Group {
 
         void addGroup(Group group);
         vector<Group> getGroups();
+
+        void setColor(float r, float g, float b);
+        Color* getColor();
 };
 
 #endif

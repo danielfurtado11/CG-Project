@@ -69,6 +69,8 @@ void drawGroup(Group g){
 
 	// Drawing objects in this group
 
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 
 
     vector<Transformation*> tV = g.getTransformations();
@@ -91,16 +93,23 @@ void drawGroup(Group g){
 			continue;
 		}
 	}
+
+    Color* cl = g.getColor();
+    if (cl != nullptr){
+        glColor3f(cl->getR(), cl->getG(), cl->getB());
+    }
+	
+
     std::vector<std::string> modelsList = g.getModelsList();
 	drawObject(modelsList);
 
+
+    // Drawing groups in this group
     vector<Group> groups = g.getGroups();
 	for (Group group : groups) {
 		drawGroup(group);
 	}
-    
-
-	// Drawing groups in this group
+    glPopMatrix();
 
 }
 
@@ -192,10 +201,83 @@ void myKeyboardFunc(unsigned char key, int x, int y) {
 }
 
 
-int main(int argc , char** argv) {
+Group loadGroupXML(tinyxml2::XMLElement* child){
+
+    Group group = Group();
+    
+    tinyxml2::XMLElement* elemento = child->FirstChildElement("transform");
+    if (elemento != nullptr) {
+        std::cout << "Entrei no Transform\n";
+        for (tinyxml2::XMLElement* childDois = elemento->FirstChildElement(); 
+        childDois != nullptr; 
+        childDois = childDois->NextSiblingElement()) {
+            const char* elemento = childDois->Value();
+            std::cout << "ElementoT: " << elemento << "\n";
+            
+            if(strcmp(elemento, "translate") == 0){
+                double x = childDois->DoubleAttribute("x");
+                double y = childDois->DoubleAttribute("y");
+                double z = childDois->DoubleAttribute("z");
+                group.addTranslacao(x,y,z);
+            }
+            else if (strcmp(elemento, "rotate") == 0) {
+                double angle = childDois->DoubleAttribute("angle");
+                double x = childDois->DoubleAttribute("x");
+                double y = childDois->DoubleAttribute("y");
+                double z = childDois->DoubleAttribute("z");
+                group.addRotacao(angle,x,y,z);
+            }
+            else if (strcmp(elemento, "scale") == 0) {
+                double x = childDois->DoubleAttribute("x");
+                double y = childDois->DoubleAttribute("y");
+                double z = childDois->DoubleAttribute("z");
+                group.addEscala(x,y,z);
+            }
+            else if (strcmp(elemento, "color") == 0) {
+                float r = childDois->FloatAttribute("r");
+                float g = childDois->FloatAttribute("g"); 
+                float b = childDois->FloatAttribute("b");
+                group.setColor(r,g,b);
+            }
+            else {
+                std::cout << "Erro no Transform\n";
+            }
+        }
+        
+    } 
+    
+    tinyxml2::XMLElement* elemento2 = child->FirstChildElement("models");
+    if (elemento2 != nullptr) {
+        for (tinyxml2::XMLElement* model = elemento2->FirstChildElement("model");
+            model != nullptr;
+            model = model->NextSiblingElement("model")) {  
+            
+            // extract the file attribute value of the current model element
+            const char* file = model->Attribute("file");
+            std::cout << "Model: " << file << "\n";
+            // add the file attribute value to the vector
+            group.addModels(file);
+        }     
+        
+    }
+
+    tinyxml2::XMLElement* elemento3 = child->FirstChildElement("group");
+    while (elemento3 != nullptr) {
+        std::cout << "OII\n";
+        Group g = loadGroupXML(elemento3);
+		group.addGroup(g);
+		elemento3 = elemento3->NextSiblingElement("group");
+    }
+
+    return group;
+}
+
+
+void loadXML(char* ficheiro){
+
 // load the XML file
     tinyxml2::XMLDocument doc;
-    doc.LoadFile(argv[1]);    
+    doc.LoadFile(ficheiro);    
 
     // get the root element
     tinyxml2::XMLElement* root = doc.FirstChildElement("world");   
@@ -225,81 +307,21 @@ int main(int argc , char** argv) {
     double near = projection->DoubleAttribute("near");
     double far = projection->DoubleAttribute("far");    
 
-    
-    Group group = Group();
-    // iterate over all groups
-    std::cout << "Tou fora do ciclo\n";
-    for (tinyxml2::XMLElement* child = root->FirstChildElement("group")->FirstChildElement(); 
-        child != nullptr; 
-        ) {
-        std::cout << "Entrei no ciclo\n";
+    // Ler o group
+    tinyxml2::XMLElement* grupos = root->FirstChildElement("group");
+	while (grupos) {
+		Group g = loadGroupXML(grupos);
+		groupList.push_back(g);
 
-        const char* elemento = child->Value();
-        std::cout << "Elemento: " << elemento << "\n";
-        if (strcmp(elemento, "/group") == 0)
-        {
-            std::cout << "Found closing tag </group>" << std::endl;
-        }
-        else if (strcmp(elemento, "transform") == 0) {
-            std::cout << "Entrei no Transform\n";
-            for (tinyxml2::XMLElement* childDois = child->FirstChildElement(); 
-            childDois != nullptr; 
-            childDois = childDois->NextSiblingElement()) {
-                const char* elemento = childDois->Value();
-                
-
-                
-                if(strcmp(elemento, "translate") == 0){
-                    double x = childDois->DoubleAttribute("x");
-                    double y = childDois->DoubleAttribute("y");
-                    double z = childDois->DoubleAttribute("z");
-                    group.addTranslacao(x,y,z);
-                }
-                else if (strcmp(elemento, "rotate") == 0) {
-                    double angle = childDois->DoubleAttribute("angle");
-                    double x = childDois->DoubleAttribute("x");
-                    double y = childDois->DoubleAttribute("y");
-                    double z = childDois->DoubleAttribute("z");
-                    group.addRotacao(angle,x,y,z);
-                }
-                else if (strcmp(elemento, "scale") == 0) {
-                    double x = childDois->DoubleAttribute("x");
-                    double y = childDois->DoubleAttribute("y");
-                    double z = childDois->DoubleAttribute("z");
-                    group.addEscala(x,y,z);
-                }
-                else {
-                    std::cout << "Erro no Transform\n";
-                }
-            }
-            child = child->NextSiblingElement();
+		grupos = grupos->NextSiblingElement("group");
+	}
+}
 
 
-        } else if (strcmp(elemento, "models") == 0) {
-            for (tinyxml2::XMLElement* model = child->FirstChildElement("model");
-                model != nullptr;
-                model = model->NextSiblingElement("model")) {  
-                
-                
-                // extract the file attribute value of the current model element
-                const char* file = model->Attribute("file");
-                std::cout << "Model: " << file << "\n";
 
-                // add the file attribute value to the vector
+int main(int argc , char** argv) {
 
-                group.addModels(file);
-            }
-            child = child->NextSiblingElement();      
-            
-        } else if (strcmp(elemento, "group") == 0) {
-            child = child->FirstChildElement();
-            groupList.push_back(group); // Fix
-            group = Group();
-        } else {
-            std::cout << "Erro no XML\n";
-        }
-    }
-
+    loadXML(argv[1]);
 
     // init GLUT and the window
 	glutInit(&argc, argv);

@@ -10,6 +10,13 @@ Group::Group(){
     transformations = {};
     modelsList = {};
     groups = {};
+    color = nullptr;
+}
+
+Color::Color(){
+    r=1.0f;
+    g=1.0f;
+    b=1.0f;
 }
 
 Escala::Escala(){
@@ -64,4 +71,13 @@ void Group::addGroup(Group g){
 
 vector<Group> Group::getGroups() {
     return this->groups;
+}
+
+void Group::setColor(float r, float g, float b) {
+    Color* cl = new Color(r,g,b);
+    this->color = cl;
+}
+
+Color* Group::getColor() {
+    return this->color;
 }
