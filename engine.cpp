@@ -68,13 +68,8 @@ void drawObject(std::vector<std::string> modelsList){
 void drawGroup(Group g){
 
 	// Drawing objects in this group
-	std::vector<std::string> modelsList = g.getModelsList();
-	drawObject(modelsList);
-    
-	vector<Group> groups = g.getGroups();
-	for (Group group : groups) {
-		drawGroup(group);
-	}
+
+
 
     vector<Transformation*> tV = g.getTransformations();
 	for (Transformation* t : tV) {
@@ -96,6 +91,14 @@ void drawGroup(Group g){
 			continue;
 		}
 	}
+    std::vector<std::string> modelsList = g.getModelsList();
+	drawObject(modelsList);
+
+    vector<Group> groups = g.getGroups();
+	for (Group group : groups) {
+		drawGroup(group);
+	}
+    
 
 	// Drawing groups in this group
 
@@ -233,7 +236,11 @@ int main(int argc , char** argv) {
 
         const char* elemento = child->Value();
         std::cout << "Elemento: " << elemento << "\n";
-        if (strcmp(elemento, "transform") == 0) {
+        if (strcmp(elemento, "/group") == 0)
+        {
+            std::cout << "Found closing tag </group>" << std::endl;
+        }
+        else if (strcmp(elemento, "transform") == 0) {
             std::cout << "Entrei no Transform\n";
             for (tinyxml2::XMLElement* childDois = child->FirstChildElement(); 
             childDois != nullptr; 
@@ -287,7 +294,7 @@ int main(int argc , char** argv) {
         } else if (strcmp(elemento, "group") == 0) {
             child = child->FirstChildElement();
             groupList.push_back(group); // Fix
-            Group group = Group();
+            group = Group();
         } else {
             std::cout << "Erro no XML\n";
         }
