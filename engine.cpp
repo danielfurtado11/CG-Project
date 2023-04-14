@@ -102,6 +102,7 @@ void drawGroup(Group g){
 
     std::vector<std::string> modelsList = g.getModelsList();
 	drawObject(modelsList);
+    glScalef(1.0f,1.0f,1.0f);
 
 
     // Drawing groups in this group
