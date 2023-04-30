@@ -6,6 +6,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 #include <math.h>
@@ -14,6 +15,7 @@
 
 using namespace std;
 
+#define MAX 100
 
 
 GLdouble alpha_angle = M_PI / 4;
@@ -23,16 +25,27 @@ GLdouble gamma_value = 40.0;
 GLenum modo = GL_FILL;
 std::vector<Group> groupList;
 
+int timebase;
+float frames;
+float fps;
+GLuint vertices[MAX], verticeCount[MAX];
+int limite;
+int flag = 0;
+
 void drawObject(std::vector<std::string> modelsList){
+    
+    
     for (size_t i = 0; i < modelsList.size(); i++){
+        int size = 0;
+        vector<float> pontos;
         ifstream file("3dFiles/" + modelsList[i]) ;  
 
         if (file.is_open()) {
             
             string line;
             int j =0;
-            int jx = 0;
-            vector<string> jacinto;
+
+
 
             while (std::getline(file, line)) {
 
@@ -46,15 +59,10 @@ void drawObject(std::vector<std::string> modelsList){
                         row.push_back(cell);
                     }
 
-                    if (jx == 0){
-                        glBegin(GL_TRIANGLES);
-                    }
-                    jx += 1;
-                    glVertex3f(stof(row[0]),stof(row[1]),stof(row[2]));
-                    if (jx == 3){
-                        glEnd();
-                        jx = 0;
-                    }
+                    pontos.push_back(stof(row[0]));
+                    pontos.push_back(stof(row[1]));
+                    pontos.push_back(stof(row[2]));
+                    size += 1;
                 }    
                 j=1;            
             }
@@ -62,7 +70,15 @@ void drawObject(std::vector<std::string> modelsList){
         }else {
             cerr << "Unable to open file." << endl;
         }
+        verticeCount[limite] = size;
+        glGenBuffers(1, &vertices[limite]);	
+        glBindBuffer(GL_ARRAY_BUFFER, vertices[limite]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size(), pontos.data(),GL_STATIC_DRAW); 
+
+
+        limite += 1;
     }
+
 }
 
 void drawGroup(Group g){
@@ -99,10 +115,20 @@ void drawGroup(Group g){
         glColor3f(cl->getR(), cl->getG(), cl->getB());
     }
 	
+    if(flag == 0) {
+        std::vector<std::string> modelsList = g.getModelsList();
+	    drawObject(modelsList);
+    }
 
-    std::vector<std::string> modelsList = g.getModelsList();
-	drawObject(modelsList);
-    glScalef(1.0f,1.0f,1.0f);
+    int j = 0;
+    while(j < limite){
+        glBindBuffer(GL_ARRAY_BUFFER, vertices[j]);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glDrawArrays(GL_TRIANGLES, 0, verticeCount[j]);
+        glScalef(1.0f,1.0f,1.0f);
+        j++;
+    }
+
 
 
     // Drawing groups in this group
@@ -110,6 +136,7 @@ void drawGroup(Group g){
 	for (Group group : groups) {
 		drawGroup(group);
 	}
+    
     glPopMatrix();
 
 }
@@ -172,9 +199,22 @@ void renderScene(void) {
 		glVertex3f(0.0f, 0.0f, 50.0f);
 	glEnd();
 
+	char s[10];
+	frames++;
+	float time = glutGet(GLUT_ELAPSED_TIME);
+	if (time - timebase > 1000) {
+		fps = frames*1000.0/(time-timebase);
+		timebase = time;
+		frames = 0;
+	}	
+	sprintf(s, "%f", fps);
+	glutSetWindowTitle(s);
+
+
     for(Group g : groupList){
         drawGroup(g);
     }
+    flag = 1;
   
 	glutPostRedisplay();
 	// End of frame
@@ -322,6 +362,7 @@ void loadXML(char* ficheiro){
 
 int main(int argc , char** argv) {
 
+
     loadXML(argv[1]);
 
     // init GLUT and the window
@@ -335,9 +376,19 @@ int main(int argc , char** argv) {
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
     glutKeyboardFunc(myKeyboardFunc);
+	glutIdleFunc(renderScene);
+
+    #ifndef __APPLE__
+	glewInit();
+    #endif
+
+
+    timebase = glutGet(GLUT_ELAPSED_TIME);
+
 
     //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
+    glEnableClientState(GL_VERTEX_ARRAY);
 	
     // enter GLUT's main cycle
 	glutMainLoop();
