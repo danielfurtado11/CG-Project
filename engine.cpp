@@ -3,14 +3,11 @@
 #include <string>
 #include "tinyxml2/tinyxml2.h"
 #include <fstream>
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
 #include <GL/glew.h>
 #include <GL/glut.h>
-#endif
 #include <math.h>
 #include <sstream>
+#include "fpsCamera.h"
 #include "transformations.h"
 
 using namespace std;
@@ -31,6 +28,8 @@ float fps;
 GLuint vertices[MAX], verticeCount[MAX];
 int limite;
 int flag = 0;
+
+fpsCamera* fps_camera;
 
 void drawObject(std::vector<std::string> modelsList){
     
@@ -177,9 +176,10 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity(); // Destroi todas as entidades feitas, é mesmo necessário acontecer
-	gluLookAt(sin(alpha_angle)*cos(beta_angle)*gamma_value, sin(beta_angle)*gamma_value, cos(alpha_angle)*cos(beta_angle)*gamma_value,
-              0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);
+
+    gluLookAt(fps_camera->getEyeX(), fps_camera->getEyeY(), fps_camera->getEyeZ(),
+		      	fps_camera->getCenterX(), fps_camera->getCenterY(), fps_camera->getCenterZ(),
+			  	0.0f,1.0f,0.0f);
 
 	glPolygonMode(GL_FRONT_AND_BACK, modo);
 
@@ -223,22 +223,47 @@ void renderScene(void) {
 
 void myKeyboardFunc(unsigned char key, int x, int y) {
     switch (key) {
-        case 'a': alpha_angle -= M_PI / 32; break;
-        case 'd': alpha_angle += M_PI / 32; break;
-        case 'w':
-            beta_angle += M_PI / 32;
-            if (beta_angle > 1.5) beta_angle = 1.5;
+
+        case 'a':
+			 fps_camera->reactcamerafps(key);
+             break;
+        case 'd':
+			fps_camera->reactcamerafps(key); 
+			break;
+		case 'w':
+			fps_camera->reactcamerafps(key);
+			break;
+		case 's':
+			fps_camera->reactcamerafps(key) ;
+			break;
+        case 'q':
+            fps_camera->reactcamerafps(key) ;
+			break;
+        case 'e':
+            fps_camera->reactcamerafps(key) ;
+			break;
+        case 'c':
+            fps_camera->carregar_camera("fpscamera.cfg");
             break;
-        case 's':
-            beta_angle -= M_PI / 32;
-            if (beta_angle < -1.5) beta_angle = -1.5;
+        case 'g':
+            fps_camera->guarda_camera("fpscamera.cfg");
             break;
-        case 'q': gamma_value -= 0.5; break;
-        case 'e': gamma_value += 0.5; break;
         case 'b': modo = GL_POINT; break;
         case 'n': modo = GL_LINE; break;
         case 'm': modo = GL_FILL; break;
     }
+}
+
+// Function to process mouse motion
+void processMouseMotion(int xx, int yy) {
+		fps_camera->processar_movimento_rato(xx, yy);
+		glutPostRedisplay();
+}
+
+// Function to process mouse buttons
+void processMouseButtons(int button, int state, int xx, int yy) {
+		fps_camera->processar_botoes_rato(button, state, xx, yy);
+		glutPostRedisplay();
 }
 
 
@@ -376,6 +401,8 @@ int main(int argc , char** argv) {
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
     glutKeyboardFunc(myKeyboardFunc);
+    glutMouseFunc(processMouseButtons);
+	glutMotionFunc(processMouseMotion);
 	glutIdleFunc(renderScene);
 
     #ifndef __APPLE__
@@ -389,6 +416,9 @@ int main(int argc , char** argv) {
     //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
     glEnableClientState(GL_VERTEX_ARRAY);
+
+	fps_camera = new fpsCamera(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), "fpscamera.cfg");
+	glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH)/2, glutGet(GLUT_WINDOW_HEIGHT)/2);
 	
     // enter GLUT's main cycle
 	glutMainLoop();
