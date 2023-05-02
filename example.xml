@@ -15,6 +15,27 @@
             <model file="sphere.3d"/>
         </models>
     </group>
+
+    <group> <!-- Comet -->
+        <transform>
+            <translate time="10" closed="true" >
+                <point x="-65" y="-10" z="0" />
+                <point x="-44" y="-5" z="37" />
+                <point x="0" y="0" z="50" />
+                <point x="50" y="5" z="38" />
+                <point x="76" y="10" z="0" />
+                <point x="52" y="5" z="-37" />
+                <point x="0" y="0" z="-50" />
+                <point x="-43" y="-5" z="-37" />
+            </translate>
+            <scale  x="0.3" y="0.3" z="0.3" />
+            <color r="0.808" g="0.808" b="0.808" />
+        </transform>
+        <models>
+            <model file="oi.3d" />
+        </models>
+    </group>
+
     <group> <!-- Mercurio -->
         <transform>
             <translate x="8.5" y="0" z="0" />

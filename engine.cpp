@@ -96,9 +96,22 @@ void drawGroup(Group g){
 			continue;
 		}
 
+        TranslacaoG* t_dt = dynamic_cast<TranslacaoG*>(t);
+		if (t_dt) {
+			t_dt->renderCatmullRomCurve();
+			t_dt->applyTransformations();
+			continue;
+		}
+
 		Rotacao* tR = dynamic_cast<Rotacao*>(t);
 		if (tR) {
 			glRotatef(tR->getAng(), tR->getX(), tR->getY(), tR->getZ());
+			continue;
+		}
+
+        RotacaoG* t_dr = dynamic_cast<RotacaoG*>(t);
+		if (t_dr) {
+			t_dr->applyTransformation();
 			continue;
 		}
 
@@ -281,16 +294,91 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
             std::cout << "ElementoT: " << elemento << "\n";
             
             if(strcmp(elemento, "translate") == 0){
-                double x = childDois->DoubleAttribute("x");
-                double y = childDois->DoubleAttribute("y");
-                double z = childDois->DoubleAttribute("z");
-                group.addTranslacao(x,y,z);
+                const char* timeValue = childDois->Attribute("time");
+
+                if (timeValue != nullptr) {
+		            vector<Ponto> points = {};
+
+		            string closed = childDois->Attribute("closed");
+
+		            // The points describe a closed line, so we need to duplicate some of them
+		            if (closed.compare("true") == 0) {
+		            	vector<Ponto> temp_points;
+
+		            	tinyxml2::XMLElement* point_element = childDois->FirstChildElement("point");
+
+		            	while (point_element) {
+		            		float x_value = atof(point_element->FindAttribute("x")->Value());
+		            		float y_value = atof(point_element->FindAttribute("y")->Value());
+		            		float z_value = atof(point_element->FindAttribute("z")->Value());
+
+		            		temp_points.push_back( Ponto(x_value, y_value, z_value) );
+
+		            		point_element = point_element->NextSiblingElement("point");
+		            	}
+
+		            	// Duplicate some points so we get a closed curve
+		            	points.push_back(temp_points.back());
+		            	for (int i = 0; i < temp_points.size(); i++)
+		            		points.push_back(temp_points[i]);
+		            	points.push_back(temp_points[0]);
+		            	points.push_back(temp_points[1]);
+		            }
+
+		            // The points can describe a closed line, but none are duplicated and all are interpretated
+		            // as part of a Catmull-Rom cubic curve
+		            else {
+		            	tinyxml2::XMLElement* point_element = childDois->FirstChildElement("point");
+
+		            	while (point_element) {
+		            		float x_value = atof(point_element->FindAttribute("x")->Value());
+		            		float y_value = atof(point_element->FindAttribute("y")->Value());
+		            		float z_value = atof(point_element->FindAttribute("z")->Value());
+
+		            		points.push_back( Ponto(x_value, y_value, z_value) );
+
+		            		point_element = point_element->NextSiblingElement("point");
+		            	}
+		            }
+
+
+		            group.addTranslacaoG(std::strtof(timeValue, nullptr), points);
+	            }
+
+                else {
+                    double x = childDois->DoubleAttribute("x");
+                    double y = childDois->DoubleAttribute("y");
+                    double z = childDois->DoubleAttribute("z");
+                    group.addTranslacao(x,y,z);
+                }
+
+                
             }
             else if (strcmp(elemento, "rotate") == 0) {
                 double angle = childDois->DoubleAttribute("angle");
                 double x = childDois->DoubleAttribute("x");
                 double y = childDois->DoubleAttribute("y");
                 double z = childDois->DoubleAttribute("z");
+
+	            // Trying to get time attribute, so we know if it's a static or dynamic rotation
+	            const char* time_attribute = childDois->Attribute("time");
+
+	            // Test if we have a dynamic rotation
+	            if (time_attribute) {
+	            	float time = std::strtof(time_attribute, nullptr);
+
+	            	group.addRotacaoG(time, x, y, z);
+	            }
+
+	            // Static rotation
+	            else {
+	            	// Get angle attribute
+	            	const char* angle_attribute = childDois->Attribute("angle");
+	            	float angle_rot;
+	            	angle_attribute ? angle_rot = std::strtof(angle_attribute, nullptr) : angle_rot = 0;
+
+	            	group.addRotacao(angle_rot, x, y, z);
+	            }
                 group.addRotacao(angle,x,y,z);
             }
             else if (strcmp(elemento, "scale") == 0) {
@@ -324,7 +412,6 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
             // add the file attribute value to the vector
             group.addModels(file);
         }     
-        
     }
 
     tinyxml2::XMLElement* elemento3 = child->FirstChildElement("group");

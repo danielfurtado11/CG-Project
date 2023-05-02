@@ -8,6 +8,7 @@
 #include <ostream>
 #include <string>
 #include <initializer_list>
+#include <limits>
 
 template <class T>
 class Matrix

@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cmath>
+#include <GL/glut.h>
+
+#include "ponto.h"
+#include "Matrix.tpp"
 
 using namespace std;
 
@@ -42,6 +47,24 @@ class Translacao : public Transformation {
         };
 };
 
+class TranslacaoG : public Transformation {
+    private:
+        float total_time;  // time to run the whole curve
+        float segment_time;  // time to run each segment
+        float timebase;  // last time measured
+        float elapsed_time;  // time elapsed since beginning of the curve
+        vector<Ponto> points;
+        vector<Ponto> render_points;
+
+        void generateRenderPoints();
+    public:
+        void applyTransformations();
+        void renderCatmullRomCurve();
+
+        TranslacaoG();
+        TranslacaoG(float total_time, vector<Ponto> points);    
+};
+
 class Rotacao : public Transformation {
     private:
         float ang, x, y, z;
@@ -57,6 +80,18 @@ class Rotacao : public Transformation {
             this->y = y;
             this->z= z;
         };
+};
+
+class RotacaoG : public Transformation {
+    private:
+        float total_time;  // time to perform 360 degrees rotation
+        float timebase;  // time at the start of the rotation
+        float axisX, axisY, axisZ;  // axis of rotation
+    public:
+        void applyTransformation();
+
+        RotacaoG();
+        RotacaoG(float total_time, float axisX, float axisY, float axisZ);    
 };
 
 class Escala : public Transformation {
@@ -83,7 +118,9 @@ class Group {
     public:
         Group();
         void addTranslacao(float x, float y, float z);
+        void addTranslacaoG(float time, vector<Ponto> points);
         void addRotacao(float ang, float x, float y, float z);
+        void addRotacaoG(float time, float axisX, float axisY, float axisZ);
         void addEscala(float x, float y, float z);
         vector<Transformation*> getTransformations();
 

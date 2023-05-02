@@ -9,6 +9,7 @@ class Ponto{
         float x,y,z;
     public:
         Ponto(float x,float y,float z);
+        Ponto(string line);
         float getX();
         float getY();
         float getZ();
