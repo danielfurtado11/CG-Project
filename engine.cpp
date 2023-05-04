@@ -8,6 +8,7 @@
 #include <math.h>
 #include <sstream>
 #include "fpsCamera.h"
+#include "model.h"
 #include "transformations.h"
 
 using namespace std;
@@ -25,59 +26,46 @@ std::vector<Group> groupList;
 int timebase;
 float frames;
 float fps;
-GLuint vertices[MAX], verticeCount[MAX];
 int limite;
-int flag = 0;
 
 fpsCamera* fps_camera;
 
-void drawObject(std::vector<std::string> modelsList){
-    
-    
-    for (size_t i = 0; i < modelsList.size(); i++){
-        int size = 0;
-        vector<float> pontos;
-        ifstream file("3dFiles/" + modelsList[i]) ;  
+Model drawObject(string texto){
 
-        if (file.is_open()) {
-            
-            string line;
-            int j =0;
+    int size = 0;
+    vector<float> pontos;
+    ifstream file("3dFiles/" + texto);  
+    if (file.is_open()) {
 
-
-
-            while (std::getline(file, line)) {
-
-                if(j!=0){
-                    vector<string> row; // create vector to hold row data
-                    stringstream ss(line); // create stringstream from line
-
-
-                    string cell;
-                    while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
-                        row.push_back(cell);
-                    }
-
-                    pontos.push_back(stof(row[0]));
-                    pontos.push_back(stof(row[1]));
-                    pontos.push_back(stof(row[2]));
-                    size += 1;
-                }    
-                j=1;            
-            }
-        file.close(); // close the file
-        }else {
-            cerr << "Unable to open file." << endl;
+        string line;
+        int j =0;
+        while (std::getline(file, line)) {
+            if(j!=0){
+                vector<string> row; // create vector to hold row data
+                stringstream ss(line); // create stringstream from line
+                string cell;
+                while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
+                    row.push_back(cell);
+                }
+                pontos.push_back(stof(row[0]));
+                pontos.push_back(stof(row[1]));
+                pontos.push_back(stof(row[2]));
+                size += 1;
+            }    
+            j=1;            
         }
-        verticeCount[limite] = size;
-        glGenBuffers(1, &vertices[limite]);	
-        glBindBuffer(GL_ARRAY_BUFFER, vertices[limite]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size(), pontos.data(),GL_STATIC_DRAW); 
-
-
-        limite += 1;
+    file.close(); // close the file
+    }else {
+        cerr << "Unable to open file." << endl;
     }
+	GLuint verticeCount = (GLuint) (size);
+	GLuint vbo_ind;
+    std::cout << glGenBuffers << std::endl;
+	glGenBuffers(1, &vbo_ind);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_ind);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size(), pontos.data(), GL_STATIC_DRAW);
 
+	return Model(vbo_ind, verticeCount);
 }
 
 void drawGroup(Group g){
@@ -127,21 +115,15 @@ void drawGroup(Group g){
         glColor3f(cl->getR(), cl->getG(), cl->getB());
     }
 	
-    if(flag == 0) {
-        std::vector<std::string> modelsList = g.getModelsList();
-	    drawObject(modelsList);
-    }
 
-    int j = 0;
-    while(j < limite){
-        glBindBuffer(GL_ARRAY_BUFFER, vertices[j]);
+    std::vector<Model> modelsList = g.getModelsList();
+
+    for(Model m : modelsList){
+        glBindBuffer(GL_ARRAY_BUFFER, m.getVBOInd());
         glVertexPointer(3, GL_FLOAT, 0, 0);
-        glDrawArrays(GL_TRIANGLES, 0, verticeCount[j]);
+        glDrawArrays(GL_TRIANGLES, 0, m.getVerticeCount());
         glScalef(1.0f,1.0f,1.0f);
-        j++;
     }
-
-
 
     // Drawing groups in this group
     vector<Group> groups = g.getGroups();
@@ -227,7 +209,7 @@ void renderScene(void) {
     for(Group g : groupList){
         drawGroup(g);
     }
-    flag = 1;
+
   
 	glutPostRedisplay();
 	// End of frame
@@ -359,14 +341,11 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
                 double x = childDois->DoubleAttribute("x");
                 double y = childDois->DoubleAttribute("y");
                 double z = childDois->DoubleAttribute("z");
-
-	            // Trying to get time attribute, so we know if it's a static or dynamic rotation
-	            const char* time_attribute = childDois->Attribute("time");
+	            double time = childDois->DoubleAttribute("time");
 
 	            // Test if we have a dynamic rotation
-	            if (time_attribute) {
-	            	float time = std::strtof(time_attribute, nullptr);
-
+	            if (time) {
+                    std::cout << "TEMPO: " << time;
 	            	group.addRotacaoG(time, x, y, z);
 	            }
 
@@ -410,8 +389,9 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
             const char* file = model->Attribute("file");
             std::cout << "Model: " << file << "\n";
             // add the file attribute value to the vector
-            group.addModels(file);
-        }     
+            Model m = drawObject(file);
+            group.addModels(m);
+        }
     }
 
     tinyxml2::XMLElement* elemento3 = child->FirstChildElement("group");
@@ -474,16 +454,14 @@ void loadXML(char* ficheiro){
 
 int main(int argc , char** argv) {
 
-
-    loadXML(argv[1]);
-
     // init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(800,800);
 	glutCreateWindow("CG@DI-UM TP2");
-		
+    glEnableClientState(GL_VERTEX_ARRAY);
+
     // Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
@@ -492,17 +470,18 @@ int main(int argc , char** argv) {
 	glutMotionFunc(processMouseMotion);
 	glutIdleFunc(renderScene);
 
+
     #ifndef __APPLE__
 	glewInit();
     #endif
 
-
+    loadXML(argv[1]);
     timebase = glutGet(GLUT_ELAPSED_TIME);
 
 
     //  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
-    glEnableClientState(GL_VERTEX_ARRAY);
+
 
 	fps_camera = new fpsCamera(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), "fpscamera.cfg");
 	glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH)/2, glutGet(GLUT_WINDOW_HEIGHT)/2);

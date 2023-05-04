@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-
+set(CMAKE_BUILD_TYPE "Debug")
 # Project Name
 
 PROJECT(generator)
-add_executable(${PROJECT_NAME} generator.cpp ponto.cpp)
+add_executable(${PROJECT_NAME} generator.cpp ponto.cpp tinyxml2/tinyxml2.cpp)
 
 # Project Name
 

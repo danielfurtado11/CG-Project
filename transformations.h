@@ -8,6 +8,7 @@
 #include <GL/glut.h>
 
 #include "ponto.h"
+#include "model.h"
 #include "Matrix.tpp"
 
 using namespace std;
@@ -112,7 +113,7 @@ class Escala : public Transformation {
 class Group {
     private:
         vector<Transformation*> transformations;
-        vector<string> modelsList;
+        vector<Model> modelsList;
         vector<Group> groups;
         Color* color;
     public:
@@ -124,8 +125,8 @@ class Group {
         void addEscala(float x, float y, float z);
         vector<Transformation*> getTransformations();
 
-        void addModels(string model);
-        vector<string> getModelsList();
+        void addModels(Model model);
+        vector<Model> getModelsList();
 
         void addGroup(Group group);
         vector<Group> getGroups();

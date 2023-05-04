@@ -10,23 +10,24 @@
         <transform>
             <scale  x="4.5" y="4.5" z="4.5" />
             <color r="0.973" g="0.878" b="0" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d"/>
         </models>
     </group>
 
-    <group> <!-- Comet -->
+    <group> <!-- Cometa -->
         <transform>
             <translate time="10" closed="true" >
-                <point x="-65" y="-10" z="0" />
-                <point x="-44" y="-5" z="37" />
-                <point x="0" y="0" z="50" />
-                <point x="50" y="5" z="38" />
-                <point x="76" y="10" z="0" />
-                <point x="52" y="5" z="-37" />
-                <point x="0" y="0" z="-50" />
-                <point x="-43" y="-5" z="-37" />
+                    <point x="30" y="20" z="0" />
+                    <point x="20.5" y="15" z="20.5" />
+                    <point x="0" y="10" z="30" />
+                    <point x="-20.5" y="5" z="20.5" />
+                    <point x="-30" y="0" z="0" />
+                    <point x="-20.5" y="5" z="-20.5" />
+                    <point x="0" y="10" z="-30" />
+                    <point x="20.5" y="15" z="-20.5" />
             </translate>
             <scale  x="0.3" y="0.3" z="0.3" />
             <color r="0.808" g="0.808" b="0.808" />
@@ -38,9 +39,19 @@
 
     <group> <!-- Mercurio -->
         <transform>
-            <translate x="8.5" y="0" z="0" />
+            <translate time="50" closed="true" >
+                <point x="6" y="0" z="-6" />
+                <point x="0" y="0" z="-8" />
+                <point x="-6" y="0" z="-6" />
+                <point x="-8" y="0" z="0" />
+                <point x="-6" y="0" z="6" />
+                <point x="0" y="0" z="8" />
+                <point x="6" y="0" z="6" />                
+                <point x="8" y="0" z="0" />
+            </translate>
             <scale  x="0.2" y="0.2" z="0.2" />
             <color r="0.757" g="0.808" b="0.871" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -48,9 +59,19 @@
     </group>
     <group> <!-- Venus -->
         <transform>
-            <translate x="11.5" y="0" z="0" />
+            <translate time="150" closed="true" >
+                <point x="11" y="0" z="0" />
+                <point x="8.5" y="0" z="8.5" />
+                <point x="0" y="0" z="11" />
+                <point x="-8.5" y="0" z="8.5" />
+                <point x="-11" y="0" z="0" />
+                <point x="-8.5" y="0" z="-8.5" />
+                <point x="0" y="0" z="-11" />
+                <point x="8.5" y="0" z="-8.5" />
+            </translate>
             <scale  x="0.55" y="0.55" z="0.55" />
             <color r="0.843" g="0.718" b="0.424" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -58,19 +79,38 @@
     </group>
     <group> <!-- Terra -->
         <transform>
-            <translate x="14.5" y="0" z="0" />
+            <translate time="300" closed="true" >
+                <point x="0" y="0" z="14" />
+                <point x="-10" y="0" z="10" />
+                <point x="-14" y="0" z="0" />
+                <point x="-10" y="0" z="-10" />
+                <point x="0" y="0" z="-14" />
+                <point x="10" y="0" z="-10" />
+                <point x="14" y="0" z="0" />
+                <point x="10" y="0" z="10" />
+            </translate>
             <scale  x="0.6" y="0.6" z="0.6" />
             <color r="0.212" g="0.486" b="0.996" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
         </models>
-        
         <group> <!-- Lua -->
             <transform>
                 <scale  x="0.15" y="0.15" z="0.15" />
-                <translate x="0" y="8.5" z="4" />
+                <translate time ="100" closed="true" >
+                    <point x="10" y="0" z="0" />
+                    <point x="7.5" y="0" z="7.5" />
+                    <point x="0" y="0" z="10" />
+                    <point x="-7.5" y="0" z="7.5" />
+                    <point x="-10" y="0" z="0" />
+                    <point x="-7.5" y="0" z="-7.5" />
+                    <point x="0" y="0" z="-10" />
+                    <point x="7.5" y="0" z="-7.5" />
+                </translate>
                 <color r="0.816" g="0.863" b="0.918" />
+                <rotate time="100" z="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -80,9 +120,19 @@
     
     <group> <!-- Marte -->
         <transform>
-            <translate x="17.5" y="0" z="0" />
+            <translate time="400" closed="true" >
+                <point x="-12" y="0" z="12" />
+                <point x="-16" y="0" z="0" />
+                <point x="-12" y="0" z="-12" />
+                <point x="0" y="0" z="-16" />
+                <point x="12" y="0" z="-12" />
+                <point x="16" y="0" z="0" />
+                <point x="12" y="0" z="12" />
+                <point x="0" y="0" z="16" />
+            </translate>
             <scale  x="0.3" y="0.3" z="0.3" />
             <color r="0.820" g="0.208" b="0.008" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -90,8 +140,18 @@
         <group> <!-- Fobos -->
             <transform>
                 <scale  x="0.05" y="0.05" z="0.05" />
-                <translate x="0" y="29.3" z="0" />
+                <translate time ="100" closed="true" >
+                    <point x="30" y="0" z="0" />
+                    <point x="20.5" y="0" z="20.5" />
+                    <point x="0" y="0" z="30" />
+                    <point x="-20.5" y="0" z="20.5" />
+                    <point x="-30" y="0" z="0" />
+                    <point x="-20.5" y="0" z="-20.5" />
+                    <point x="0" y="0" z="-30" />
+                    <point x="20.5" y="0" z="-20.5" />
+                </translate>
                 <color r="0.569" g="0.506" b="0.439" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -100,8 +160,18 @@
         <group> <!-- Deimos -->
             <transform>
                 <scale  x="0.05" y="0.05" z="0.05" />
-                <translate x="10" y="30.3" z="5" />
+                <translate time ="100" closed="true" >
+                    <point x="-23.5" y="0" z="23.5" />
+                    <point x="-33" y="0" z="0" />
+                    <point x="-23.5" y="0" z="-23.5" />
+                    <point x="0" y="0" z="-33" />
+                    <point x="23.5" y="0" z="-23.5" />
+                    <point x="33" y="0" z="0" />
+                    <point x="23.5" y="0" z="23.5" />  
+                    <point x="0" y="0" z="33" />                                      
+                </translate>
                 <color r="0.941" g="0.863" b="0.510" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -112,9 +182,19 @@
 
     <group> <!-- Jupiter -->
         <transform>
-            <translate x="35" y="0" z="0" />
+            <translate time="550" closed="true" >
+                <point x="-28" y="0" z="28" />
+                <point x="-35" y="0" z="0" />
+                <point x="-28" y="0" z="-28" />
+                <point x="0" y="0" z="-35" />
+                <point x="28" y="0" z="-28" />
+                <point x="35" y="0" z="0" />
+                <point x="28" y="0" z="28" />
+                <point x="0" y="0" z="35" />
+            </translate>
             <scale  x="3.2" y="3.2" z="3.2" />
             <color r="0.769" g="0.463" b="0.137" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -122,8 +202,18 @@
         <group> <!-- Io -->
             <transform>
                 <scale  x="0.06" y="0.06" z="0.06" />
-                <translate x="0" y="23.5" z="5" />
+                <translate time ="100" closed="true" >
+                    <point x="-23.5" y="0" z="23.5" />
+                    <point x="-33" y="0" z="0" />
+                    <point x="-23.5" y="0" z="-23.5" />
+                    <point x="0" y="0" z="-33" />
+                    <point x="23.5" y="0" z="-23.5" />
+                    <point x="33" y="0" z="0" />
+                    <point x="23.5" y="0" z="23.5" />  
+                    <point x="0" y="0" z="33" />                                      
+                </translate>
                 <color r="0.910" g="0.870" b="0.388" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -132,8 +222,18 @@
         <group> <!-- Europa -->
             <transform>
                 <scale  x="0.06" y="0.06" z="0.06" />
-                <translate x="0.65" y="-23" z="-5" />
+                <translate time ="100" closed="true" >
+                    <point x="33" y="0" z="0" />
+                    <point x="23.5" y="0" z="23.5" />                  
+                    <point x="0" y="0" z="33" />  
+                    <point x="-23.5" y="0" z="23.5" />
+                    <point x="-33" y="0" z="0" />
+                    <point x="-23.5" y="0" z="-23.5" />
+                    <point x="0" y="0" z="-33" />
+                    <point x="23.5" y="0" z="-23.5" />                                    
+                </translate>
                 <color r="0.537" g="0.290" b="0.161" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -142,8 +242,18 @@
         <group> <!-- ganimedes -->
             <transform>
                 <scale  x="0.1" y="0.1" z="0.1" />
-                <translate x="-0.65" y="20" z="-7" />
+                <translate time ="100" closed="true" >
+                    <point x="24" y="0" z="0" />
+                    <point x="19.5" y="0" z="19.5" />                  
+                    <point x="0" y="0" z="24" />  
+                    <point x="-19.5" y="0" z="19.5" />
+                    <point x="-24" y="0" z="0" />
+                    <point x="-19.5" y="0" z="-19.5" />
+                    <point x="0" y="0" z="-24" />
+                    <point x="19.5" y="0" z="-19.5" />                                    
+                </translate>
                 <color r="0.749" g="0.631" b="0.537" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -152,8 +262,18 @@
         <group> <!-- Calisto -->
             <transform>
                 <scale  x="0.1" y="0.1" z="0.1" />
-                <translate x="1.13" y="-21" z="6" />
+                <translate time ="100" closed="true" >
+                    <point x="0" y="0" z="24" />  
+                    <point x="-19.5" y="0" z="19.5" />
+                    <point x="-24" y="0" z="0" />
+                    <point x="-19.5" y="0" z="-19.5" />
+                    <point x="0" y="0" z="-24" />
+                    <point x="19.5" y="0" z="-19.5" />   
+                    <point x="24" y="0" z="0" />        
+                    <point x="19.5" y="0" z="19.5" />                                                                       
+                </translate>
                 <color r="0.110" g="0.043" b="0.169" />
+                <rotate time="100" y="1" />
             </transform>
             <models>
                 <model file="sphere.3d" />
@@ -163,9 +283,19 @@
 
     <group> <!-- Saturno -->
         <transform>
-            <translate x="60" y="0" z="0" />
+            <translate time="700" closed="true" >
+                <point x="-50" y="0" z="-50" />
+                <point x="0" y="0" z="-72" />
+                <point x="50" y="0" z="-50" />
+                <point x="72" y="0" z="0" />
+                <point x="50" y="0" z="50" />
+                <point x="0" y="0" z="72" />
+                <point x="-50" y="0" z="50" /> 
+                <point x="-72" y="0" z="0" />
+            </translate>
             <scale  x="2.6" y="2.6" z="2.6" />
             <color r="0.863" g="0.812" b="0.400" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -174,9 +304,19 @@
 
     <group> <!-- Urano -->
         <transform>
-            <translate x="100" y="0" z="0" />
+            <translate time="900" closed="true" >
+                <point x="-100" y="0" z="0" />
+                <point x="-75" y="0" z="-75" />
+                <point x="0" y="0" z="-100" />
+                <point x="75" y="0" z="-75" />
+                <point x="100" y="0" z="0" />
+                <point x="75" y="0" z="75" />
+                <point x="0" y="0" z="100" />
+                <point x="-75" y="0" z="75" />                
+            </translate>
             <scale  x="1.7" y="1.7" z="1.7" />
             <color r="0.471" g="0.867" b="0.976" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />
@@ -185,9 +325,19 @@
 
     <group> <!-- Neptuno -->
         <transform>
-            <translate x="140" y="0" z="0" />
+            <translate time="1000" closed="true" >
+                <point x="-140" y="0" z="0" />
+                <point x="-110" y="0" z="-110" />
+                <point x="0" y="0" z="-140" />
+                <point x="110" y="0" z="-110" />
+                <point x="140" y="0" z="0" />
+                <point x="110" y="0" z="110" />
+                <point x="0" y="0" z="140" />
+                <point x="-110" y="0" z="110" />                
+            </translate>
             <scale  x="1.7" y="1.7" z="1.7" />
             <color r="0.067" g="0.302" b="0.992" />
+            <rotate time="100" y="1" />
         </transform>
         <models>
             <model file="sphere.3d" />

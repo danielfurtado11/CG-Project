@@ -161,7 +161,9 @@ void TranslacaoG::applyTransformations() {
     float t = fmod(elapsed_time, segment_time) / segment_time;
 
     // Calculate transformations
+
     int segment = elapsed_time / segment_time;
+
     Ponto p0 = points[segment];
     Ponto p1 = points[segment+1];
     Ponto p2 = points[segment+2];
@@ -256,11 +258,11 @@ vector<Transformation*> Group::getTransformations() {
     return this->transformations;
 }
 
-void Group::addModels(string m){
+void Group::addModels(Model m){
     this->modelsList.push_back(m);
 }
 
-vector<string> Group::getModelsList() {
+vector<Model> Group::getModelsList() {
     return this->modelsList;
 }
 
