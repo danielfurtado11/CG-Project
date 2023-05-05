@@ -68,41 +68,25 @@ void fpsCamera::reactcamerafps(unsigned char c) {
 }
 
 void fpsCamera::processar_movimento_rato(int xx, int yy) {
-	if (tracking[0] == 1) {
-		int deltaX = xx - startX;
-		startX = xx;
+    int deltaX = xx - startX;
+    startX = xx;
 
-		alpha -= deltaX * sensitivity;
-	}
+    alpha -= deltaX * sensitivity;
 
-	if (tracking[1] == 1) {
-		int deltaY = yy - startY;
-		startY = yy;
+    int deltaY = yy - startY;
+    startY = yy;
 
-		beta += deltaY * sensitivity;
+    beta += deltaY * sensitivity;
 
-		if (beta < M_PI/32) beta = M_PI/32;
-    	else if (beta > M_PI - M_PI/32) beta = M_PI - M_PI/32;
-	}
+    if (beta < M_PI/32) beta = M_PI/32;
+    else if (beta > M_PI - M_PI/32) beta = M_PI - M_PI/32;
 }
 
 void fpsCamera::processar_botoes_rato(int button, int state, int xx, int yy) {
-	if (state == GLUT_DOWN) {
-		if (button == GLUT_LEFT_BUTTON) {
-			startX = xx;
-			tracking[0] = 1;
-		}
-		else if (button == GLUT_RIGHT_BUTTON) {
-			startY = yy;
-			tracking[1] = 1;
-		}
-	}
-	else if (state == GLUT_UP) {
-		if (button == GLUT_LEFT_BUTTON)
-			tracking[0] = 0;
-		else if (button == GLUT_RIGHT_BUTTON)
-			tracking[1] = 0;
-	}
+    if (state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON) {
+        startX = xx;
+        startY = yy;
+    }
 }
 
 
