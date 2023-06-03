@@ -10,12 +10,21 @@
 
 #include "ponto.h"
 #include "Matrix.tpp"
+#include "vetores.h"
 using namespace std;
 
 
+// Function that calculates the normal in p1, given two other points, following the right hand rule
+Ponto calculaNormal(Ponto p1, Ponto p2, Ponto p3) {
+	Ponto v1 = sub_ponto(p2, p1);
+	Ponto v2 = sub_ponto(p3, p1);
+	Ponto n = sub_ponto(v1, v2);
+
+	return normalizarPonto(n);
+}
 
 
-vector<Ponto> bezierFile (string patchFile, int tess_level){
+void bezierFile (string patchFile, int tess_level,vector<Ponto>* p, vector<Ponto>* n){
 
     int i = 0;
     string linha_auxiliar; // linha auxiliar que vamos usar para varrer o ficheiro
@@ -94,6 +103,7 @@ vector<Ponto> bezierFile (string patchFile, int tess_level){
 
     // Calculate Bezier Surfaces
     vector<Ponto> r_pontos;
+    vector<Ponto> r_normais;
 
     // Processing of each patch
     for (int i_p = 0; i_p < nr_patches; i_p++) {
@@ -163,12 +173,21 @@ vector<Ponto> bezierFile (string patchFile, int tess_level){
 
                 r_pontos.push_back(p0); r_pontos.push_back(p2); r_pontos.push_back(p1);
                 r_pontos.push_back(p1); r_pontos.push_back(p2); r_pontos.push_back(p3);
+
+                r_normais.push_back(calculaNormal(p0, p2, p1));
+                r_normais.push_back(calculaNormal(p2, p1, p0));
+                r_normais.push_back(calculaNormal(p1, p0, p2));
+
+                r_normais.push_back(calculaNormal(p1, p2, p3));
+                r_normais.push_back(calculaNormal(p2, p3, p1));
+                r_normais.push_back(calculaNormal(p3, p1, p2));
             }
         }
 
     }
 
-    return r_pontos;
+    *p = r_pontos;
+    *n = r_normais;
 
 }
 
@@ -334,8 +353,10 @@ vector <Ponto> cone(float raio, float altura, int slices, int stacks){
     return pontos;
 }
 
-vector<Ponto> sphere(float raio, int slices, int stacks){
+void sphere(float raio, int slices, int stacks,vector <Ponto>*p, vector <Ponto>* n, vector<float>* text){
     vector<Ponto> pontos;
+    vector<Ponto> normais;
+    vector<float> texturas;
 
 	float angulo_default_slice = (2 * M_PI) / slices;
 	float angulo_default_stack = M_PI / stacks;
@@ -350,35 +371,89 @@ vector<Ponto> sphere(float raio, int slices, int stacks){
 		
 		for (int j = 0; j < stacks; j++){
 			if(j == 0){
-                pontos.push_back(Ponto(0.0, -raio, 0.0));
-                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice)));
-                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin (temp_aStack) , raio * cos(temp_aStack) * cos(aSlice)));
+                Ponto ponto_1 = Ponto(0.0, -raio, 0.0);
+                Ponto ponto_2 = Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice));
+                Ponto ponto_3 = Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin (temp_aStack) , raio * cos(temp_aStack) * cos(aSlice));
+                pontos.push_back(ponto_1);
+                pontos.push_back(ponto_2);
+                pontos.push_back(ponto_3);
+                normais.push_back(normalizarPonto(ponto_1));
+                normais.push_back(normalizarPonto(ponto_2));
+                normais.push_back(normalizarPonto(ponto_3));
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back(0.0);
+                texturas.push_back(temp_aSlice / (2*M_PI));
+                texturas.push_back((temp_aStack + M_PI_2)/M_PI);
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back((temp_aStack + M_PI_2)/M_PI);
 
 			}else if(j == stacks-1){
-                pontos.push_back(Ponto(0.0, raio, 0.0));
-                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
-                pontos.push_back(Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice)));
+                Ponto ponto_1 = Ponto(0.0, raio, 0.0);
+                Ponto ponto_2 = Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice));
+                Ponto ponto_3 = Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice));
+                pontos.push_back(ponto_1);
+                pontos.push_back(ponto_2);
+                pontos.push_back(ponto_3);
+                normais.push_back(normalizarPonto(ponto_1));
+                normais.push_back(normalizarPonto(ponto_2));
+                normais.push_back(normalizarPonto(ponto_3));
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back(1.0);
+                texturas.push_back(temp_aSlice / (2*M_PI));
+                texturas.push_back((aStack + M_PI_2)/M_PI);
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back((aStack + M_PI_2)/M_PI);
 				
 			}else{
-                pontos.push_back(Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice)));
-                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
-                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice)));
+                Ponto ponto_1 = Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice));
+                Ponto ponto_2 = Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice));
+                Ponto ponto_3 = Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice));
+                pontos.push_back(ponto_1);
+                pontos.push_back(ponto_2);
+                pontos.push_back(ponto_3);
+                normais.push_back(normalizarPonto(ponto_1));
+                normais.push_back(normalizarPonto(ponto_2));
+                normais.push_back(normalizarPonto(ponto_3));
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back((aStack + M_PI_2)/ M_PI);
+                texturas.push_back(temp_aSlice / (2*M_PI));
+                texturas.push_back((aStack + M_PI_2)/ M_PI);
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back((temp_aStack + M_PI_2)/ M_PI);
 
-                pontos.push_back(Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice)));
-                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice)));
-                pontos.push_back(Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice)));
+                Ponto ponto_4 = Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice));
+                Ponto ponto_5 = Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice));
+                Ponto ponto_6 = Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(aSlice));
+                pontos.push_back(ponto_4);
+                pontos.push_back(ponto_5);
+                pontos.push_back(ponto_6);
+                normais.push_back(normalizarPonto(ponto_4));
+                normais.push_back(normalizarPonto(ponto_5));
+                normais.push_back(normalizarPonto(ponto_6));
+                texturas.push_back(temp_aSlice / (2*M_PI));
+                texturas.push_back((aSlice + M_PI_2) / M_PI);
+                texturas.push_back(temp_aSlice / (2*M_PI));
+                texturas.push_back((temp_aSlice + M_PI_2) / M_PI);
+                texturas.push_back(aSlice / (2*M_PI));
+                texturas.push_back((temp_aSlice + M_PI_2) / M_PI);
             }  
 			aStack += angulo_default_stack;
 			temp_aStack += angulo_default_stack;
 		}
 	}
-	return pontos;
+	*p = pontos;
+    *n = normais;
+    *text = texturas;
 }
 
 
-void writePointsToFile(vector<Ponto> points, string filename) {
+void writePointsToFile(vector<Ponto> points, vector<Ponto>* normais, vector<float>* texturas, string filename) {
     ofstream arquivo(filename);
     arquivo << points.size() << "\n";
+
+    normais ? arquivo << "true\n" : arquivo << "false\n";
+
+    texturas ? arquivo << "true\n" : arquivo << "false\n";
 
     for(Ponto p : points) {
         float px = p.getX();
@@ -389,41 +464,66 @@ void writePointsToFile(vector<Ponto> points, string filename) {
         arquivo << line;
     }
 
+    if (normais) {
+        for(Ponto n : *normais) {
+            float nx = n.getX();
+            float ny = n.getY();
+            float nz = n.getZ();
+
+            string line = to_string(nx) + ", " + to_string(ny) + ", " + to_string(nz) + "\n";
+            arquivo << line;
+        }
+    }
+
+    // If defined, write vertexes texture coordinates to file
+    if (texturas) {
+        vector<float> ts = *texturas;
+        for (int i = 0; i < ts.size(); i+=2) {
+            float tx = ts[i];
+            float ty = ts[i+1];
+
+            string line = to_string(tx) + ", " + to_string(ty) + "\n";
+            arquivo << line;
+        }
+    }
+
     arquivo.close();
 }
 
 int main(int argc, char** argv){
     vector<Ponto> pontos;
+    vector<Ponto> normais;
+    vector<float> texturas;
     string file;
 
     if (strcmp(argv[1],"plane") == 0){
         pontos = plane(stof(argv[2]), stof(argv[3]));
         file = argv[4];
         file = "3dFiles/" + file;
-        writePointsToFile(pontos,file);
+        writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1],"box") == 0){
         pontos = box(stof(argv[2]), stof(argv[3]));
         file = argv[4];
         file = "3dFiles/" + file;
-        writePointsToFile(pontos, file);
+        writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1], "cone") == 0){
         pontos = cone(stof(argv[2]), stof(argv[3]), stof(argv[4]), stof(argv[5]));
         file = argv[6];
         file = "3dFiles/" + file;
-        writePointsToFile(pontos, file);
+        writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1], "sphere") == 0){
         pontos = sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]));
         file = argv[5];
         file = "3dFiles/" + file;
-        writePointsToFile(pontos, file);
+        writePointsToFile(pontos, &normais, &texturas, file);
     }else if(strcmp(argv[1],"bezier") == 0){
         file = argv[4];
         file = "3dFiles/" + file;
-        pontos = bezierFile(argv[2],atoi(argv[3]));
-        writePointsToFile(pontos,file);
+        bezierFile(argv[2],atoi(argv[3]),&pontos,&normais);
+        writePointsToFile(pontos, &normais, nullptr, file);
     }
     else printf("Erro no input");
     
