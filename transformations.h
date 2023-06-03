@@ -5,7 +5,6 @@
 #include <vector>
 #include <sstream>
 #include <cmath>
-#include <GL/glut.h>
 
 #include "ponto.h"
 #include "model.h"
