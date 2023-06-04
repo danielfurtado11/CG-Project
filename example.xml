@@ -12,6 +12,17 @@
                 diffR="1.0" diffG="1.0" diffB="1.0"
                 specR="1.0" specG="1.0" specB="1.0" />
     </lights>
+
+    <group> <!-- Stars -->
+        <transform>
+            <rotate time="500" axisY="1" />
+            <scale x="-600" y="-600" z="-600" />
+        </transform>
+        <models>
+            <model file="sphere.3d" emisR="1.0" emisG="1.0" emisB="1.0" texture="universo.jpg" />
+        </models>
+    </group>
+
     <group> <!-- Sol -->
         <transform>
             <scale  x="4.5" y="4.5" z="4.5" />
@@ -153,7 +164,7 @@
                 <rotate time="100" y="1" />
             </transform>
             <models>
-                <model file="sphere.3d" />
+                <model file="sphere.3d" texture="phobos.jpg"/>
             </models>
         </group>
         <group> <!-- Deimos -->
@@ -172,7 +183,7 @@
                 <rotate time="100" y="1" />
             </transform>
             <models>
-                <model file="sphere.3d" />
+                <model file="sphere.3d" texture="deimos.jpg"/>
             </models>
         </group>
     </group>

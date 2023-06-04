@@ -1,0 +1,1 @@
+/usr/bin/c++  Wno-deprecated -O3 -DNDEBUG CMakeFiles/generator.dir/generator.cpp.o CMakeFiles/generator.dir/ponto.cpp.o CMakeFiles/generator.dir/vetores.cpp.o CMakeFiles/generator.dir/transformations.cpp.o -o generator 

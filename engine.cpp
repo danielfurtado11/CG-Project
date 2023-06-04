@@ -345,7 +345,9 @@ void renderScene(void) {
 	sprintf(s, "%f", fps);
 	glutSetWindowTitle(s);
 
-    
+    for (Light* l : lights_vector) {
+        l->apply();
+    }
 
     for(Group g : groupList){
         drawGroup(g);

@@ -1,0 +1,4 @@
+/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/CMakeFiles/generator.dir
+/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/CMakeFiles/engine.dir
+/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/CMakeFiles/edit_cache.dir
+/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/CMakeFiles/rebuild_cache.dir

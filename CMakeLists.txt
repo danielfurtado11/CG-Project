@@ -2,16 +2,23 @@ cmake_minimum_required(VERSION 3.5)
 
 # Project Name - Generator
 PROJECT(generator)
-add_executable(${PROJECT_NAME} Generator/generator.cpp
-								ponto.cpp)
+add_executable(${PROJECT_NAME} generator.cpp
+								ponto.cpp
+								vetores.cpp
+								transformations.cpp)
+
+								
 
 # Project Name - Engine
 PROJECT(engine)
 add_executable(${PROJECT_NAME} engine.cpp
 								transformations.cpp
 								fpsCamera.cpp
-								lib/tinyxml2.cpp
-								ponto.cpp)
+								tinyxml2/tinyxml2.cpp
+								ponto.cpp
+								model.cpp 
+								lights.cpp
+								)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -38,37 +45,49 @@ if  (WIN32)
 		message(ERROR ": GLEW not found")
 	endif (NOT EXISTS "${TOOLKITS_FOLDER}/glew/GL/glew.h" OR NOT EXISTS "${TOOLKITS_FOLDER}/glew/glew32.lib")	
 
+	if (NOT EXISTS "${TOOLKITS_FOLDER}/devil/IL/il.h" OR NOT EXISTS "${TOOLKITS_FOLDER}/devil/devIL.lib")
+		message(ERROR ": DevIL not found")
+	endif (NOT EXISTS "${TOOLKITS_FOLDER}/devil/IL/il.h" OR NOT EXISTS "${TOOLKITS_FOLDER}/devil/devIL.lib")
+
 	include_directories(${TOOLKITS_FOLDER}/glut ${TOOLKITS_FOLDER}/glew)
 	target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
 										  ${TOOLKITS_FOLDER}/glut/glut32.lib
-										  ${TOOLKITS_FOLDER}/glew/glew32.lib)
+										  ${TOOLKITS_FOLDER}/glew/glew32.lib
+										  ${TOOLKITS_FOLDER}/devil/devIL.lib)
 
-	if (EXISTS "${TOOLKITS_FOLDER}/glut/glut32.dll" AND EXISTS "${TOOLKITS_FOLDER}/glew/glew32.dll")
+	if (EXISTS "${TOOLKITS_FOLDER}/glut/glut32.dll" AND EXISTS "${TOOLKITS_FOLDER}/glew/glew32.dll" AND EXISTS "${TOOLKITS_FOLDER}/devil/devil.dll")
 		file(COPY ${TOOLKITS_FOLDER}/glut/glut32.dll DESTINATION ${CMAKE_BINARY_DIR})
 		file(COPY ${TOOLKITS_FOLDER}/glew/glew32.dll DESTINATION ${CMAKE_BINARY_DIR})
-	endif(EXISTS "${TOOLKITS_FOLDER}/glut/glut32.dll" AND EXISTS "${TOOLKITS_FOLDER}/glew/glew32.dll")
+		file(COPY ${TOOLKITS_FOLDER}/devil/devil.dll DESTINATION ${CMAKE_BINARY_DIR})
+	endif(EXISTS "${TOOLKITS_FOLDER}/glut/glut32.dll" AND EXISTS "${TOOLKITS_FOLDER}/glew/glew32.dll" AND EXISTS "${TOOLKITS_FOLDER}/devil/devil.dll")
 
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 else (WIN32) #Linux and Mac
 
-	set( CMAKE_CXX_FLAGSÂ  "${CMAKE_CXX_FLAGS} Wno-deprecated")
+	set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
+
 	find_package(GLUT REQUIRED)
 	include_directories(${GLUT_INCLUDE_DIR})
 	link_directories(${GLUT_LIBRARY_DIRS})
 	add_definitions(${GLUT_DEFINITIONS})
-
+	
+	find_package(DevIL REQUIRED)
+	link_libraries(${IL_LIBRARIES})
+	include_directories(${IL_INCLUDE_DIR})
+	
 	if (NOT APPLE)
 		find_package(GLEW REQUIRED)
 		include_directories(${GLEW_INCLUDE_DIRS})
 		link_libraries(${GLEW_LIBRARIES})
-		target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLEW_LIBRARIES})
+		target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${GLEW_LIBRARIES} ${IL_LIBRARIES})
 	else (NOT APPLE)
-		target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+		target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES}  ${IL_LIBRARIES})
 	endif(NOT APPLE)
 
+	
 	if(NOT GLUT_FOUND)
 	   message(ERROR ": GLUT not found!")
 	endif(NOT GLUT_FOUND)
-
+	
 endif(WIN32)
