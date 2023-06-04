@@ -18,7 +18,7 @@ using namespace std;
 Ponto calculaNormal(Ponto p1, Ponto p2, Ponto p3) {
 	Ponto v1 = sub_ponto(p2, p1);
 	Ponto v2 = sub_ponto(p3, p1);
-	Ponto n = sub_ponto(v1, v2);
+	Ponto n = cross_ponto(v1, v2);
 
 	return normalizarPonto(n);
 }

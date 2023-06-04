@@ -35,48 +35,76 @@ int limite;
 fpsCamera* fps_camera;
 
 Model drawObject(string texto){
-    int size = 0;
+	string line;
+    string delim = ", ";
     vector<float> pontos;
-    vector<float> texturas;
     vector<float> normals;
 	bool b_normals;
+    vector<float> texturas;
 	bool b_textures;
-    ifstream file("3dFiles/" + texto);  
-    if (file.is_open()) {
+	int size; 
 
-        string line;
-        int j =0;
+    ifstream file("3dFiles/" + texto);
 
-        // Skip number of points in file
-        getline(file, line);
-        // Check if there's normals in the file
-        getline(file, line);
-        line == "true" ? b_normals = true : b_normals = false;
+	if (file.is_open()){
 
-        // Check if there's textures in the file
-        getline(file, line);
-        line == "true" ? b_textures = true : b_textures = false;
-		std::cout << "Teste: " << line << "\n";
+    // Get number of points in file
+    getline(file, line);
+    int nr_points = atoi(line.c_str());
 
-        while (std::getline(file, line)) {
-				string token;
-    			istringstream tokenStream(line);
+    // Check if there's normals in the file
+    getline(file, line);
+    line == "true" ? b_normals = true : b_normals = false;
 
-    			while (getline(tokenStream, token, ',')) {
-					pontos.push_back(atof(token.c_str()));
-					size += 1;
-					if(b_normals){
-					normals.push_back(atof(token.c_str()));
-					}
-					if (b_textures){
-					texturas.push_back(atof(token.c_str()));
-					}
-				}
-			}
-                   
-    file.close(); // close the file
+    // Check if there's textures in the file
+    getline(file, line);
+    line == "true" ? b_textures = true : b_textures = false;
 
-    }else {
+    // Read from file
+        // Read points from file
+        for (int j = 0; j < nr_points; j++) {
+            getline(file, line);
+
+            string token;
+            istringstream tokenStream(line);
+
+            while (getline(tokenStream, token, ',')) {
+                pontos.push_back(atof(token.c_str()));
+				size+=1;
+            }
+        }
+
+        // Read normals from file
+        if (b_normals) {
+            for (int j = 0; j < nr_points; j++) {
+                getline(file, line);
+
+                string token;
+                istringstream tokenStream(line);
+
+                while (getline(tokenStream, token, ',')) {
+                    normals.push_back(atof(token.c_str()));
+                }
+            }
+        }
+
+        // Read textures from file
+        if (b_textures) {
+            for (int j = 0; j < nr_points; j++) {
+                getline(file, line);
+
+                string token;
+                istringstream tokenStream(line);
+
+                while (getline(tokenStream, token, ',')) {
+                    texturas.push_back(atof(token.c_str()));
+                }
+            }
+        }
+
+        file.close();
+    }
+	else {
         cerr << "Unable to open file." << endl;
     }
 	

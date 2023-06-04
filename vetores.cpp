@@ -30,3 +30,9 @@ void normalizarVector(float* a) {
 	a[2] = a[2]/l;
 }
 
+Ponto cross_ponto(Ponto p1, Ponto p2) {
+    return Ponto(p1.getY() * p2.getZ() - p1.getZ() * p2.getY(),
+                 p1.getZ() * p2.getX() - p1.getX() * p2.getZ(),
+                 p1.getX() * p2.getY() - p1.getY() * p2.getX());
+}
+
