@@ -73,35 +73,15 @@ Model drawObject(string texto){
             while (getline(tokenStream, token, ',')) {
                 pontos.push_back(atof(token.c_str()));
 				size+=1;
-            }
-        }
 
-        // Read normals from file
-        if (b_normals) {
-            for (int j = 0; j < nr_points; j++) {
-                getline(file, line);
+				if(b_normals){
+					normals.push_back(atof(token.c_str()));
+				}
 
-                string token;
-                istringstream tokenStream(line);
-
-                while (getline(tokenStream, token, ',')) {
-                    normals.push_back(atof(token.c_str()));
-                }
-            }
-        }
-
-        // Read textures from file
-        if (b_textures) {
-            for (int j = 0; j < nr_points; j++) {
-                getline(file, line);
-
-                string token;
-                istringstream tokenStream(line);
-
-                while (getline(tokenStream, token, ',')) {
-                    texturas.push_back(atof(token.c_str()));
-                }
-            }
+				if(b_textures){
+					texturas.push_back(atof(token.c_str()));
+				}
+            }	
         }
 
         file.close();
@@ -117,12 +97,40 @@ Model drawObject(string texto){
     std::cout << glGenBuffers << std::endl;
 	glGenBuffers(1, &p_vbo_ind);
 	glBindBuffer(GL_ARRAY_BUFFER, p_vbo_ind);
+	
+    // Print vertices data
+    GLfloat* pts_data = static_cast<GLfloat*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+    if (pts_data) {
+        for (GLuint i = 0; i < verticeCount; ++i) {
+            GLuint offset = i * 3;
+            GLfloat x = pts_data[offset];
+            GLfloat y = pts_data[offset + 1];
+            GLfloat z = pts_data[offset + 2];
+            std::cout << "Vertex " << i << ": (" << x << ", " << y << ", " << z << ")" << endl;
+        }
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    }
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size(), pontos.data(), GL_STATIC_DRAW);
 
     if (b_normals) {
 		// Push normals to VBO
 		glGenBuffers(1, &n_vbo_ind);
 		glBindBuffer(GL_ARRAY_BUFFER, n_vbo_ind);
+
+    	// Print vertices data
+    	GLfloat* pts_data = static_cast<GLfloat*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+    	if (pts_data) {
+    	    for (GLuint i = 0; i < verticeCount; ++i) {
+    	        GLuint offset = i * 3;
+    	        GLfloat x = pts_data[offset];
+    	        GLfloat y = pts_data[offset + 1];
+    	        GLfloat z = pts_data[offset + 2];
+    	        cout << "Vertex " << i << ": (" << x << ", " << y << ", " << z << ")" << endl;
+    	    }
+    	    glUnmapBuffer(GL_ARRAY_BUFFER);
+    	}
+
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.size(), normals.data(), GL_STATIC_DRAW);
 	}
 
@@ -130,6 +138,20 @@ Model drawObject(string texto){
 		// Push textures to VBO
 		glGenBuffers(1, &t_vbo_ind);
 		glBindBuffer(GL_ARRAY_BUFFER, t_vbo_ind);
+
+		// Print vertices data
+    	GLfloat* pts_data = static_cast<GLfloat*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+    	if (pts_data) {
+    	    for (GLuint i = 0; i < verticeCount; ++i) {
+    	        GLuint offset = i * 3;
+    	        GLfloat x = pts_data[offset];
+    	        GLfloat y = pts_data[offset + 1];
+    	        GLfloat z = pts_data[offset + 2];
+    	        cout << "Vertex " << i << ": (" << x << ", " << y << ", " << z << ")" << endl;
+    	    }
+    	    glUnmapBuffer(GL_ARRAY_BUFFER);
+    	}
+
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * texturas.size(), texturas.data(), GL_STATIC_DRAW);
 	}
 
