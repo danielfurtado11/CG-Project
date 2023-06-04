@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/generator.dir/generator.cpp.o CMakeFiles/generator.dir/ponto.cpp.o -o generator 
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/generator.dir/generator.cpp.o CMakeFiles/generator.dir/ponto.cpp.o CMakeFiles/generator.dir/vetores.cpp.o -o generator 

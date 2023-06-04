@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/usr/include/IL
 
-CXX_FLAGS =  Wno-deprecated -O3 -DNDEBUG
+CXX_FLAGS = -O3 -DNDEBUG
 

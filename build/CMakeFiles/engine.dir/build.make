@@ -83,24 +83,38 @@ CMakeFiles/engine.dir/engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/engine.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/engine.cpp -o CMakeFiles/engine.dir/engine.cpp.s
 
-CMakeFiles/engine.dir/ponto.cpp.o: CMakeFiles/engine.dir/flags.make
-CMakeFiles/engine.dir/ponto.cpp.o: ../ponto.cpp
-CMakeFiles/engine.dir/ponto.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/engine.dir/ponto.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/ponto.cpp.o -MF CMakeFiles/engine.dir/ponto.cpp.o.d -o CMakeFiles/engine.dir/ponto.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp
+CMakeFiles/engine.dir/transformations.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/transformations.cpp.o: ../transformations.cpp
+CMakeFiles/engine.dir/transformations.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/engine.dir/transformations.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/transformations.cpp.o -MF CMakeFiles/engine.dir/transformations.cpp.o.d -o CMakeFiles/engine.dir/transformations.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/transformations.cpp
 
-CMakeFiles/engine.dir/ponto.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/ponto.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp > CMakeFiles/engine.dir/ponto.cpp.i
+CMakeFiles/engine.dir/transformations.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/transformations.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/transformations.cpp > CMakeFiles/engine.dir/transformations.cpp.i
 
-CMakeFiles/engine.dir/ponto.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/ponto.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp -o CMakeFiles/engine.dir/ponto.cpp.s
+CMakeFiles/engine.dir/transformations.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/transformations.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/transformations.cpp -o CMakeFiles/engine.dir/transformations.cpp.s
+
+CMakeFiles/engine.dir/fpsCamera.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/fpsCamera.cpp.o: ../fpsCamera.cpp
+CMakeFiles/engine.dir/fpsCamera.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/fpsCamera.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/fpsCamera.cpp.o -MF CMakeFiles/engine.dir/fpsCamera.cpp.o.d -o CMakeFiles/engine.dir/fpsCamera.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/fpsCamera.cpp
+
+CMakeFiles/engine.dir/fpsCamera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/fpsCamera.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/fpsCamera.cpp > CMakeFiles/engine.dir/fpsCamera.cpp.i
+
+CMakeFiles/engine.dir/fpsCamera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/fpsCamera.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/fpsCamera.cpp -o CMakeFiles/engine.dir/fpsCamera.cpp.s
 
 CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o: CMakeFiles/engine.dir/flags.make
 CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o: ../tinyxml2/tinyxml2.cpp
 CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o -MF CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o.d -o CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/tinyxml2/tinyxml2.cpp
 
 CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.i: cmake_force
@@ -111,24 +125,76 @@ CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/tinyxml2/tinyxml2.cpp -o CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.s
 
+CMakeFiles/engine.dir/ponto.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/ponto.cpp.o: ../ponto.cpp
+CMakeFiles/engine.dir/ponto.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/engine.dir/ponto.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/ponto.cpp.o -MF CMakeFiles/engine.dir/ponto.cpp.o.d -o CMakeFiles/engine.dir/ponto.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp
+
+CMakeFiles/engine.dir/ponto.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/ponto.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp > CMakeFiles/engine.dir/ponto.cpp.i
+
+CMakeFiles/engine.dir/ponto.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/ponto.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp -o CMakeFiles/engine.dir/ponto.cpp.s
+
+CMakeFiles/engine.dir/model.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/model.cpp.o: ../model.cpp
+CMakeFiles/engine.dir/model.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine.dir/model.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/model.cpp.o -MF CMakeFiles/engine.dir/model.cpp.o.d -o CMakeFiles/engine.dir/model.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/model.cpp
+
+CMakeFiles/engine.dir/model.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/model.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/model.cpp > CMakeFiles/engine.dir/model.cpp.i
+
+CMakeFiles/engine.dir/model.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/model.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/model.cpp -o CMakeFiles/engine.dir/model.cpp.s
+
+CMakeFiles/engine.dir/lights.cpp.o: CMakeFiles/engine.dir/flags.make
+CMakeFiles/engine.dir/lights.cpp.o: ../lights.cpp
+CMakeFiles/engine.dir/lights.cpp.o: CMakeFiles/engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine.dir/lights.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine.dir/lights.cpp.o -MF CMakeFiles/engine.dir/lights.cpp.o.d -o CMakeFiles/engine.dir/lights.cpp.o -c /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/lights.cpp
+
+CMakeFiles/engine.dir/lights.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/engine.dir/lights.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/lights.cpp > CMakeFiles/engine.dir/lights.cpp.i
+
+CMakeFiles/engine.dir/lights.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/engine.dir/lights.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/lights.cpp -o CMakeFiles/engine.dir/lights.cpp.s
+
 # Object files for target engine
 engine_OBJECTS = \
 "CMakeFiles/engine.dir/engine.cpp.o" \
+"CMakeFiles/engine.dir/transformations.cpp.o" \
+"CMakeFiles/engine.dir/fpsCamera.cpp.o" \
+"CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o" \
 "CMakeFiles/engine.dir/ponto.cpp.o" \
-"CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o"
+"CMakeFiles/engine.dir/model.cpp.o" \
+"CMakeFiles/engine.dir/lights.cpp.o"
 
 # External object files for target engine
 engine_EXTERNAL_OBJECTS =
 
 engine: CMakeFiles/engine.dir/engine.cpp.o
-engine: CMakeFiles/engine.dir/ponto.cpp.o
+engine: CMakeFiles/engine.dir/transformations.cpp.o
+engine: CMakeFiles/engine.dir/fpsCamera.cpp.o
 engine: CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o
+engine: CMakeFiles/engine.dir/ponto.cpp.o
+engine: CMakeFiles/engine.dir/model.cpp.o
+engine: CMakeFiles/engine.dir/lights.cpp.o
 engine: CMakeFiles/engine.dir/build.make
 engine: /usr/lib/x86_64-linux-gnu/libGL.so
 engine: /usr/lib/x86_64-linux-gnu/libGLU.so
 engine: /usr/lib/x86_64-linux-gnu/libglut.so
+engine: /usr/lib/x86_64-linux-gnu/libGLEW.so
+engine: /usr/lib/x86_64-linux-gnu/libIL.so
 engine: CMakeFiles/engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

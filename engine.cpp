@@ -17,7 +17,7 @@ using namespace std;
 using namespace tinyxml2;
 #define MAX 100
 
-#define BIN_IMAGE_DIR "texturas/"
+#define BIN_IMAGE_DIR "../texturas/"
 GLdouble alpha_angle = M_PI / 4;
 GLdouble beta_angle = M_PI / 6;
 GLdouble gamma_value = 40.0;
@@ -46,7 +46,7 @@ Model drawObject(string texto){
 
     ifstream file;
 	
-	file.open("3dFiles/" + texto);
+	file.open("../3dFiles/" + texto);
 
 	if (file.is_open()){
 
@@ -381,10 +381,10 @@ void myKeyboardFunc(unsigned char key, int x, int y) {
             fps_camera->reactcamerafps(key) ;
 			break;
         case 'c':
-            fps_camera->carregar_camera("fpscamera.cfg");
+            fps_camera->carregar_camera("../fpscamera.cfg");
             break;
         case 'g':
-            fps_camera->guarda_camera("fpscamera.cfg");
+            fps_camera->guarda_camera("../fpscamera.cfg");
             break;
         case 'b': modo = GL_POINT; break;
         case 'n': modo = GL_LINE; break;
@@ -785,7 +785,7 @@ int main(int argc , char** argv) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	fps_camera = new fpsCamera(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), "fpscamera.cfg");
+	fps_camera = new fpsCamera(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT), "../fpscamera.cfg");
 	glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH)/2, glutGet(GLUT_WINDOW_HEIGHT)/2);
 	
     // enter GLUT's main cycle

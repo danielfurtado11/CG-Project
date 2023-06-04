@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/generator.dir/generator.cpp.o.d"
   "CMakeFiles/generator.dir/ponto.cpp.o"
   "CMakeFiles/generator.dir/ponto.cpp.o.d"
-  "CMakeFiles/generator.dir/transformations.cpp.o"
-  "CMakeFiles/generator.dir/transformations.cpp.o.d"
   "CMakeFiles/generator.dir/vetores.cpp.o"
   "CMakeFiles/generator.dir/vetores.cpp.o.d"
   "generator"

@@ -9,8 +9,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/engine.cpp" "CMakeFiles/engine.dir/engine.cpp.o" "gcc" "CMakeFiles/engine.dir/engine.cpp.o.d"
+  "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/fpsCamera.cpp" "CMakeFiles/engine.dir/fpsCamera.cpp.o" "gcc" "CMakeFiles/engine.dir/fpsCamera.cpp.o.d"
+  "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/lights.cpp" "CMakeFiles/engine.dir/lights.cpp.o" "gcc" "CMakeFiles/engine.dir/lights.cpp.o.d"
+  "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/model.cpp" "CMakeFiles/engine.dir/model.cpp.o" "gcc" "CMakeFiles/engine.dir/model.cpp.o.d"
   "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp" "CMakeFiles/engine.dir/ponto.cpp.o" "gcc" "CMakeFiles/engine.dir/ponto.cpp.o.d"
   "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/tinyxml2/tinyxml2.cpp" "CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o" "gcc" "CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.o.d"
+  "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/transformations.cpp" "CMakeFiles/engine.dir/transformations.cpp.o" "gcc" "CMakeFiles/engine.dir/transformations.cpp.o.d"
   )
 
 # Targets to which this target links.

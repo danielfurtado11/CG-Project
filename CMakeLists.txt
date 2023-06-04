@@ -5,7 +5,7 @@ PROJECT(generator)
 add_executable(${PROJECT_NAME} generator.cpp
 								ponto.cpp
 								vetores.cpp
-								transformations.cpp)
+								)
 
 								
 
@@ -49,7 +49,7 @@ if  (WIN32)
 		message(ERROR ": DevIL not found")
 	endif (NOT EXISTS "${TOOLKITS_FOLDER}/devil/IL/il.h" OR NOT EXISTS "${TOOLKITS_FOLDER}/devil/devIL.lib")
 
-	include_directories(${TOOLKITS_FOLDER}/glut ${TOOLKITS_FOLDER}/glew)
+	include_directories(${TOOLKITS_FOLDER}/glut ${TOOLKITS_FOLDER}/glew ${TOOLKITS_FOLDER}/devil)
 	target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
 										  ${TOOLKITS_FOLDER}/glut/glut32.lib
 										  ${TOOLKITS_FOLDER}/glew/glew32.lib
@@ -65,8 +65,7 @@ if  (WIN32)
 
 else (WIN32) #Linux and Mac
 
-	set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
-
+	set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}")
 	find_package(GLUT REQUIRED)
 	include_directories(${GLUT_INCLUDE_DIR})
 	link_directories(${GLUT_LIBRARY_DIRS})

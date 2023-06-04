@@ -166,6 +166,30 @@ engine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/engine.cpp.s
 .PHONY : engine.cpp.s
 
+fpsCamera.o: fpsCamera.cpp.o
+.PHONY : fpsCamera.o
+
+# target to build an object file
+fpsCamera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/fpsCamera.cpp.o
+.PHONY : fpsCamera.cpp.o
+
+fpsCamera.i: fpsCamera.cpp.i
+.PHONY : fpsCamera.i
+
+# target to preprocess a source file
+fpsCamera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/fpsCamera.cpp.i
+.PHONY : fpsCamera.cpp.i
+
+fpsCamera.s: fpsCamera.cpp.s
+.PHONY : fpsCamera.s
+
+# target to generate assembly for a file
+fpsCamera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/fpsCamera.cpp.s
+.PHONY : fpsCamera.cpp.s
+
 generator.o: generator.cpp.o
 .PHONY : generator.o
 
@@ -189,6 +213,54 @@ generator.s: generator.cpp.s
 generator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/generator.cpp.s
 .PHONY : generator.cpp.s
+
+lights.o: lights.cpp.o
+.PHONY : lights.o
+
+# target to build an object file
+lights.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/lights.cpp.o
+.PHONY : lights.cpp.o
+
+lights.i: lights.cpp.i
+.PHONY : lights.i
+
+# target to preprocess a source file
+lights.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/lights.cpp.i
+.PHONY : lights.cpp.i
+
+lights.s: lights.cpp.s
+.PHONY : lights.s
+
+# target to generate assembly for a file
+lights.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/lights.cpp.s
+.PHONY : lights.cpp.s
+
+model.o: model.cpp.o
+.PHONY : model.o
+
+# target to build an object file
+model.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/model.cpp.o
+.PHONY : model.cpp.o
+
+model.i: model.cpp.i
+.PHONY : model.i
+
+# target to preprocess a source file
+model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/model.cpp.i
+.PHONY : model.cpp.i
+
+model.s: model.cpp.s
+.PHONY : model.s
+
+# target to generate assembly for a file
+model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/model.cpp.s
+.PHONY : model.cpp.s
 
 ponto.o: ponto.cpp.o
 .PHONY : ponto.o
@@ -241,6 +313,54 @@ tinyxml2/tinyxml2.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/tinyxml2/tinyxml2.cpp.s
 .PHONY : tinyxml2/tinyxml2.cpp.s
 
+transformations.o: transformations.cpp.o
+.PHONY : transformations.o
+
+# target to build an object file
+transformations.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.o
+.PHONY : transformations.cpp.o
+
+transformations.i: transformations.cpp.i
+.PHONY : transformations.i
+
+# target to preprocess a source file
+transformations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.i
+.PHONY : transformations.cpp.i
+
+transformations.s: transformations.cpp.s
+.PHONY : transformations.s
+
+# target to generate assembly for a file
+transformations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.s
+.PHONY : transformations.cpp.s
+
+vetores.o: vetores.cpp.o
+.PHONY : vetores.o
+
+# target to build an object file
+vetores.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/vetores.cpp.o
+.PHONY : vetores.cpp.o
+
+vetores.i: vetores.cpp.i
+.PHONY : vetores.i
+
+# target to preprocess a source file
+vetores.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/vetores.cpp.i
+.PHONY : vetores.cpp.i
+
+vetores.s: vetores.cpp.s
+.PHONY : vetores.s
+
+# target to generate assembly for a file
+vetores.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/vetores.cpp.s
+.PHONY : vetores.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -254,15 +374,30 @@ help:
 	@echo "... engine.o"
 	@echo "... engine.i"
 	@echo "... engine.s"
+	@echo "... fpsCamera.o"
+	@echo "... fpsCamera.i"
+	@echo "... fpsCamera.s"
 	@echo "... generator.o"
 	@echo "... generator.i"
 	@echo "... generator.s"
+	@echo "... lights.o"
+	@echo "... lights.i"
+	@echo "... lights.s"
+	@echo "... model.o"
+	@echo "... model.i"
+	@echo "... model.s"
 	@echo "... ponto.o"
 	@echo "... ponto.i"
 	@echo "... ponto.s"
 	@echo "... tinyxml2/tinyxml2.o"
 	@echo "... tinyxml2/tinyxml2.i"
 	@echo "... tinyxml2/tinyxml2.s"
+	@echo "... transformations.o"
+	@echo "... transformations.i"
+	@echo "... transformations.s"
+	@echo "... vetores.o"
+	@echo "... vetores.i"
+	@echo "... vetores.s"
 .PHONY : help
 
 

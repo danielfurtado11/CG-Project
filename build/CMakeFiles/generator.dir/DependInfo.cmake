@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/generator.cpp" "CMakeFiles/generator.dir/generator.cpp.o" "gcc" "CMakeFiles/generator.dir/generator.cpp.o.d"
   "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/ponto.cpp" "CMakeFiles/generator.dir/ponto.cpp.o" "gcc" "CMakeFiles/generator.dir/ponto.cpp.o.d"
+  "/home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/vetores.cpp" "CMakeFiles/generator.dir/vetores.cpp.o" "gcc" "CMakeFiles/generator.dir/vetores.cpp.o.d"
   )
 
 # Targets to which this target links.

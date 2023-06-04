@@ -500,29 +500,29 @@ int main(int argc, char** argv){
     if (strcmp(argv[1],"plane") == 0){
         pontos = plane(stof(argv[2]), stof(argv[3]));
         file = argv[4];
-        file = "3dFiles/" + file;
+        file = "../3dFiles/" + file;
         writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1],"box") == 0){
         pontos = box(stof(argv[2]), stof(argv[3]));
         file = argv[4];
-        file = "3dFiles/" + file;
+        file = "../3dFiles/" + file;
         writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1], "cone") == 0){
         pontos = cone(stof(argv[2]), stof(argv[3]), stof(argv[4]), stof(argv[5]));
         file = argv[6];
-        file = "3dFiles/" + file;
+        file = "../3dFiles/" + file;
         writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1], "sphere") == 0){
         sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]),&pontos,&normais,&texturas);
         file = argv[5];
-        file = "3dFiles/" + file;
+        file = "../3dFiles/" + file;
         writePointsToFile(pontos, &normais, &texturas, file);
     }else if(strcmp(argv[1],"bezier") == 0){
         file = argv[4];
-        file = "3dFiles/" + file;
+        file = "../3dFiles/" + file;
         bezierFile(argv[2],atoi(argv[3]),&pontos,&normais);
         writePointsToFile(pontos, &normais, nullptr, file);
     }

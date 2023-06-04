@@ -318,7 +318,6 @@ transformations.o: transformations.cpp.o
 
 # target to build an object file
 transformations.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/transformations.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.o
 .PHONY : transformations.cpp.o
 
@@ -327,7 +326,6 @@ transformations.i: transformations.cpp.i
 
 # target to preprocess a source file
 transformations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/transformations.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.i
 .PHONY : transformations.cpp.i
 
@@ -336,7 +334,6 @@ transformations.s: transformations.cpp.s
 
 # target to generate assembly for a file
 transformations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generator.dir/build.make CMakeFiles/generator.dir/transformations.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine.dir/build.make CMakeFiles/engine.dir/transformations.cpp.s
 .PHONY : transformations.cpp.s
 
