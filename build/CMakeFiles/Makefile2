@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project
+CMAKE_SOURCE_DIR = /home/daniel/Desktop/CG-Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucena/Desktop/uni/3ano2sem/CG/Trabalho/CG-Project/build
+CMAKE_BINARY_DIR = /home/daniel/Desktop/CG-Project/build
 
 #=============================================================================
 # Directory level rules for the build root directory

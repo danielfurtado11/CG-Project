@@ -17,7 +17,7 @@ using namespace std;
 using namespace tinyxml2;
 #define MAX 100
 
-#define BIN_IMAGE_DIR "images/"
+#define BIN_IMAGE_DIR "texturas/"
 GLdouble alpha_angle = M_PI / 4;
 GLdouble beta_angle = M_PI / 6;
 GLdouble gamma_value = 40.0;
@@ -48,7 +48,6 @@ Model drawObject(string texto){
 
         // Skip number of points in file
         getline(file, line);
-
         // Check if there's normals in the file
         getline(file, line);
         line == "true" ? b_normals = true : b_normals = false;
@@ -56,14 +55,24 @@ Model drawObject(string texto){
         // Check if there's textures in the file
         getline(file, line);
         line == "true" ? b_textures = true : b_textures = false;
+		std::cout << "Teste: " << line << "\n";
 
         while (std::getline(file, line)) {
                 vector<string> row; // create vector to hold row data
                 stringstream ss(line); // create stringstream from line
                 string cell;
+
+                while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
+                    row.push_back(cell);
+                }
+
+				std::cout << "Teste1: " << row[0] << "\n";
                 pontos.push_back(stof(row[0]));
+				std::cout << "Teste2: " << line << "\n";
                 pontos.push_back(stof(row[1]));
+				std::cout << "Teste3: " << line << "\n";
                 pontos.push_back(stof(row[2]));
+				std::cout << "Teste4: " << line << "\n";
                 if(b_normals){
                     normals.push_back(stof(row[0]));
                     normals.push_back(stof(row[1]));
@@ -526,7 +535,7 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
 
 	            // Test if we have a dynamic rotation
 	            if (time) {
-                    std::cout << "TEMPO: " << time;
+                    std::cout << "TEMPO: " << time << '\n';
 	            	group.addRotacaoG(time, x, y, z);
 	            }
 
@@ -571,6 +580,7 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
             std::cout << "Model: " << file << "\n";
             // add the file attribute value to the vector
             Model model = drawObject(file);
+			std::cout << "Model2: " << file << "\n";
 
             // Get diffuse attributes
 			GLfloat* diffuse = parseDiffuseAttributes(model_element, 0.8);
