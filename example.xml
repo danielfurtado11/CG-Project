@@ -6,6 +6,12 @@
         <up x="0" y="1" z="0" />
         <projection fov="60" near="1" far="1000" />
     </camera>
+    <lights>
+        <light type="POINT" posX="0" posY="0" posZ="0"
+                ambiR="0.5" ambiG="0.5" ambiB="0.5"
+                diffR="1.0" diffG="1.0" diffB="1.0"
+                specR="1.0" specG="1.0" specB="1.0" />
+    </lights>
     <group> <!-- Sol -->
         <transform>
             <scale  x="4.5" y="4.5" z="4.5" />
@@ -13,7 +19,7 @@
             <rotate time="100" y="1" />
         </transform>
         <models>
-            <model file="sphere.3d"/>
+            <model file="sphere.3d" emisR="1.0" emisG="1.0" emisB="1.0" texture="sun.jpg"/>
         </models>
     </group>
 
