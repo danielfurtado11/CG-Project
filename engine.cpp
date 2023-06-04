@@ -23,6 +23,7 @@ GLdouble beta_angle = M_PI / 6;
 GLdouble gamma_value = 40.0;
 
 GLenum modo = GL_FILL;
+GLenum gl_face = GL_FRONT_AND_BACK; //Mudado	
 std::vector<Group> groupList;
 vector<Light*> lights_vector = {};
 
@@ -79,7 +80,7 @@ Model drawObject(string texto){
         cerr << "Unable to open file." << endl;
     }
 	
-	GLuint verticeCount = (GLuint) (size);
+	GLsizei verticeCount = (GLsizei) (size);
 	GLuint p_vbo_ind;
 	GLuint n_vbo_ind = 0;
 	GLuint t_vbo_ind = 0;
@@ -156,7 +157,7 @@ void drawGroup(Group g){
 
     std::vector<Model> modelsList = g.getModelsList();
 
-    for(Model m : modelsList){
+    for(Model m : modelsList){		
 
         // Set model material properties
         glMaterialfv(GL_FRONT, GL_AMBIENT, m.getAmbient());
@@ -241,7 +242,9 @@ void renderScene(void) {
 		      	fps_camera->getCenterX(), fps_camera->getCenterY(), fps_camera->getCenterZ(),
 			  	0.0f,1.0f,0.0f);
 
-	glPolygonMode(GL_FRONT_AND_BACK, modo);
+	glPolygonMode(gl_face, modo);
+
+	
 
     // put axis drawing in here
 	glBegin(GL_LINES);
@@ -270,9 +273,7 @@ void renderScene(void) {
 	sprintf(s, "%f", fps);
 	glutSetWindowTitle(s);
 
-    for (Light* l : lights_vector) {
-		l->apply();
-	}
+    
 
     for(Group g : groupList){
         drawGroup(g);
