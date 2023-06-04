@@ -61,7 +61,6 @@ Model drawObject(string texto){
                 vector<string> row; // create vector to hold row data
                 stringstream ss(line); // create stringstream from line
                 string cell;
-				Model drawObject(string texto){
                 pontos.push_back(stof(row[0]));
                 pontos.push_back(stof(row[1]));
                 pontos.push_back(stof(row[2]));
@@ -110,6 +109,7 @@ Model drawObject(string texto){
 
 	return Model(p_vbo_ind, n_vbo_ind, t_vbo_ind, verticeCount);
 }
+
 
 void drawGroup(Group g){
 
