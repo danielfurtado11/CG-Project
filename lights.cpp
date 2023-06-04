@@ -5,7 +5,6 @@
 #include <GL/glut.h>
 #endif
 
-#include "ponto.h"
 #include "lights.h"
 
 void LightPoint::apply() {

@@ -1,6 +1,8 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
+#include "ponto.h"
+
 class Light {
     private:
         int index;

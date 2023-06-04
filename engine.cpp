@@ -17,7 +17,7 @@ using namespace std;
 using namespace tinyxml2;
 #define MAX 100
 
-
+#define BIN_IMAGE_DIR "images/"
 GLdouble alpha_angle = M_PI / 4;
 GLdouble beta_angle = M_PI / 6;
 GLdouble gamma_value = 40.0;
@@ -38,6 +38,8 @@ Model drawObject(string texto){
     vector<float> pontos;
     vector<float> texturas;
     vector<float> normals;
+	bool b_normals;
+	bool b_textures;
     ifstream file("3dFiles/" + texto);  
     if (file.is_open()) {
 
@@ -49,12 +51,10 @@ Model drawObject(string texto){
 
         // Check if there's normals in the file
         getline(file, line);
-        bool b_normals;
         line == "true" ? b_normals = true : b_normals = false;
 
         // Check if there's textures in the file
         getline(file, line);
-        bool b_textures;
         line == "true" ? b_textures = true : b_textures = false;
 
         while (std::getline(file, line)) {
@@ -109,7 +109,6 @@ Model drawObject(string texto){
 
 	return Model(p_vbo_ind, n_vbo_ind, t_vbo_ind, verticeCount);
 }
-
 
 void drawGroup(Group g){
 
@@ -334,54 +333,12 @@ void processMouseButtons(int button, int state, int xx, int yy) {
 		glutPostRedisplay();
 }
 
+float parseFloatFromElementAttribute(const XMLElement* element, string name, float default_value) {
+    const XMLAttribute* attribute = element->FindAttribute(name.c_str());
+    float value;
+    attribute ? value = atof(attribute->Value()) : value = default_value;
 
-
-Light* parseXMLLightElement (XMLElement* light_element, int light_ind) {
-	Light* new_light = nullptr;
-
-	// Get light type: POINT, DIRECTIONAL or SPOT
-	const XMLAttribute* type_attribute = light_element->FindAttribute("type");
-	const char* light_type;
-	type_attribute ? light_type = type_attribute->Value() : light_type = "";
-
-	// Get ambient attributes
-	GLfloat* ambient = parseAmbientAttributes(light_element, 0.0);
-
-	// Get diffuse attributes
-	GLfloat* diffuse = parseDiffuseAttributes(light_element, 1.0);
-
-	// Get specular attributes
-	GLfloat* specular = parseSpecularAttributes(light_element, 1.0);
-
-	if (strcmp(light_type, "POINT") == 0) {
-		float posX = parseFloatFromElementAttribute(light_element, "posX", 0.0);
-		float posY = parseFloatFromElementAttribute(light_element, "posY", 0.0);
-		float posZ = parseFloatFromElementAttribute(light_element, "posZ", 0.0);
-
-		new_light = new LightPoint(light_ind, new Ponto(posX, posY, posZ), ambient, diffuse, specular);
-	}
-	else if (strcmp(light_type, "DIRECTIONAL") == 0) {
-		float dirX = parseFloatFromElementAttribute(light_element, "dirX", 0.0);
-		float dirY = parseFloatFromElementAttribute(light_element, "dirY", 0.0);
-		float dirZ = parseFloatFromElementAttribute(light_element, "dirZ", 1.0);
-
-		new_light = new LightDirectional(light_ind, new Ponto(dirX, dirY, dirZ), ambient, diffuse, specular);
-	}
-	else if (strcmp(light_type, "SPOT") == 0) {
-		float posX = parseFloatFromElementAttribute(light_element, "posX", 0.0);
-		float posY = parseFloatFromElementAttribute(light_element, "posY", 0.0);
-		float posZ = parseFloatFromElementAttribute(light_element, "posZ", 0.0);
-
-		float dirX = parseFloatFromElementAttribute(light_element, "dirX", 0.0);
-		float dirY = parseFloatFromElementAttribute(light_element, "dirY", 0.0);
-		float dirZ = parseFloatFromElementAttribute(light_element, "dirZ", -1.0);
-
-		float cutoff = parseFloatFromElementAttribute(light_element, "cutoff", 180.0);
-
-		new_light = new LightSpot(light_ind, new Ponto(posX, posY, posZ), new Ponto(dirX, dirY, dirZ), cutoff, ambient, diffuse, specular);
-	}
-
-	return new_light;
+    return value;
 }
 
 // Function to parse ambient attributes in a light or model element
@@ -434,6 +391,55 @@ GLfloat* parseEmissiveAttributes(XMLElement* element, GLfloat default_value) {
 	emissive[3] = parseFloatFromElementAttribute(element, "emisA", 1.0);
 
 	return emissive;
+}
+
+
+Light* parseXMLLightElement (XMLElement* light_element, int light_ind) {
+	Light* new_light = nullptr;
+
+	// Get light type: POINT, DIRECTIONAL or SPOT
+	const XMLAttribute* type_attribute = light_element->FindAttribute("type");
+	const char* light_type;
+	type_attribute ? light_type = type_attribute->Value() : light_type = "";
+
+	// Get ambient attributes
+	GLfloat* ambient = parseAmbientAttributes(light_element, 0.0);
+
+	// Get diffuse attributes
+	GLfloat* diffuse = parseDiffuseAttributes(light_element, 1.0);
+
+	// Get specular attributes
+	GLfloat* specular = parseSpecularAttributes(light_element, 1.0);
+
+	if (strcmp(light_type, "POINT") == 0) {
+		float posX = parseFloatFromElementAttribute(light_element, "posX", 0.0);
+		float posY = parseFloatFromElementAttribute(light_element, "posY", 0.0);
+		float posZ = parseFloatFromElementAttribute(light_element, "posZ", 0.0);
+
+		new_light = new LightPoint(light_ind, new Ponto(posX, posY, posZ), ambient, diffuse, specular);
+	}
+	else if (strcmp(light_type, "DIRECTIONAL") == 0) {
+		float dirX = parseFloatFromElementAttribute(light_element, "dirX", 0.0);
+		float dirY = parseFloatFromElementAttribute(light_element, "dirY", 0.0);
+		float dirZ = parseFloatFromElementAttribute(light_element, "dirZ", 1.0);
+
+		new_light = new LightDirectional(light_ind, new Ponto(dirX, dirY, dirZ), ambient, diffuse, specular);
+	}
+	else if (strcmp(light_type, "SPOT") == 0) {
+		float posX = parseFloatFromElementAttribute(light_element, "posX", 0.0);
+		float posY = parseFloatFromElementAttribute(light_element, "posY", 0.0);
+		float posZ = parseFloatFromElementAttribute(light_element, "posZ", 0.0);
+
+		float dirX = parseFloatFromElementAttribute(light_element, "dirX", 0.0);
+		float dirY = parseFloatFromElementAttribute(light_element, "dirY", 0.0);
+		float dirZ = parseFloatFromElementAttribute(light_element, "dirZ", -1.0);
+
+		float cutoff = parseFloatFromElementAttribute(light_element, "cutoff", 180.0);
+
+		new_light = new LightSpot(light_ind, new Ponto(posX, posY, posZ), new Ponto(dirX, dirY, dirZ), cutoff, ambient, diffuse, specular);
+	}
+
+	return new_light;
 }
 
 
@@ -556,15 +562,15 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
     
     tinyxml2::XMLElement* elemento2 = child->FirstChildElement("models");
     if (elemento2 != nullptr) {
-        for (tinyxml2::XMLElement* model = elemento2->FirstChildElement("model");
-            model != nullptr;
-            model = model->NextSiblingElement("model")) {  
+        for (tinyxml2::XMLElement* model_element = elemento2->FirstChildElement("model");
+            model_element != nullptr;
+            model_element = model_element->NextSiblingElement("model")) {  
             
             // extract the file attribute value of the current model element
-            const char* file = model->Attribute("file");
+            const char* file = model_element->Attribute("file");
             std::cout << "Model: " << file << "\n";
             // add the file attribute value to the vector
-            Model m = drawObject(file);
+            Model model = drawObject(file);
 
             // Get diffuse attributes
 			GLfloat* diffuse = parseDiffuseAttributes(model_element, 0.8);
@@ -588,7 +594,7 @@ Group loadGroupXML(tinyxml2::XMLElement* child){
 			texture_attribute ? texture_file = texture_attribute->Value() : texture_file = "";
 			
 			model.loadTexture(BIN_IMAGE_DIR + texture_file);
-            group.addModels(m);
+            group.addModels(model);
         }
     }
 
@@ -647,7 +653,7 @@ void loadXML(char* ficheiro){
 		while (light_element) {
 			Light* l = parseXMLLightElement(light_element, light_ind);
 			if (l != nullptr)
-				lights_vector->push_back(l);
+				lights_vector.push_back(l);
 
 			light_element = light_element->NextSiblingElement("light");
 			light_ind++;
