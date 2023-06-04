@@ -430,12 +430,13 @@ void sphere(float raio, int slices, int stacks,vector <Ponto>*p, vector <Ponto>*
                 normais.push_back(normalizarPonto(ponto_4));
                 normais.push_back(normalizarPonto(ponto_5));
                 normais.push_back(normalizarPonto(ponto_6));
+
                 texturas.push_back(temp_aSlice / (2*M_PI));
-                texturas.push_back((aSlice + M_PI_2) / M_PI);
+                texturas.push_back((aStack + M_PI_2) / M_PI);
                 texturas.push_back(temp_aSlice / (2*M_PI));
-                texturas.push_back((temp_aSlice + M_PI_2) / M_PI);
+                texturas.push_back((temp_aStack + M_PI_2) / M_PI);
                 texturas.push_back(aSlice / (2*M_PI));
-                texturas.push_back((temp_aSlice + M_PI_2) / M_PI);
+                texturas.push_back((temp_aStack + M_PI_2) / M_PI);
             }  
 			aStack += angulo_default_stack;
 			temp_aStack += angulo_default_stack;

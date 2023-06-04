@@ -44,7 +44,9 @@ Model drawObject(string texto){
 	bool b_textures;
 	int size; 
 
-    ifstream file("3dFiles/" + texto);
+    ifstream file;
+	
+	file.open("3dFiles/" + texto);
 
 	if (file.is_open()){
 
