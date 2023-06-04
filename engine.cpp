@@ -58,40 +58,27 @@ Model drawObject(string texto){
 		std::cout << "Teste: " << line << "\n";
 
         while (std::getline(file, line)) {
-                vector<string> row; // create vector to hold row data
-                stringstream ss(line); // create stringstream from line
-                string cell;
+				string token;
+    			istringstream tokenStream(line);
 
-                while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
-                    row.push_back(cell);
-                }
-
-				std::cout << "Teste1: " << row[0] << "\n";
-                pontos.push_back(stof(row[0]));
-				std::cout << "Teste2: " << line << "\n";
-                pontos.push_back(stof(row[1]));
-				std::cout << "Teste3: " << line << "\n";
-                pontos.push_back(stof(row[2]));
-				std::cout << "Teste4: " << line << "\n";
-                if(b_normals){
-                    normals.push_back(stof(row[0]));
-                    normals.push_back(stof(row[1]));
-                    normals.push_back(stof(row[2]));
-                }
-
-                if(b_textures){
-                    texturas.push_back(stof(row[0]));
-                    texturas.push_back(stof(row[1]));
-                    texturas.push_back(stof(row[2]));
-                }
-                size += 1;           
-        }
+    			while (getline(tokenStream, token, ',')) {
+					pontos.push_back(atof(token.c_str()));
+					size += 1;
+					if(b_normals){
+					normals.push_back(atof(token.c_str()));
+					}
+					if (b_textures){
+					texturas.push_back(atof(token.c_str()));
+					}
+				}
+			}
+                   
     file.close(); // close the file
 
     }else {
         cerr << "Unable to open file." << endl;
     }
-
+	
 	GLuint verticeCount = (GLuint) (size);
 	GLuint p_vbo_ind;
 	GLuint n_vbo_ind = 0;
