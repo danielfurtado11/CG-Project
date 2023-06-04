@@ -678,6 +678,8 @@ int main(int argc , char** argv) {
 	glutInitWindowSize(800,800);
 	glutCreateWindow("CG@DI-UM TP2");
     glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     // Required callback registry 
 	glutDisplayFunc(renderScene);
