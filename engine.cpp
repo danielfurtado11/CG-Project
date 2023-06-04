@@ -10,6 +10,7 @@
 #include "fpsCamera.h"
 #include "lights.h"
 #include "model.h"
+#include "ponto.h"
 #include "transformations.h"
 
 using namespace std;
@@ -33,41 +34,81 @@ int limite;
 fpsCamera* fps_camera;
 
 Model drawObject(string texto){
-
     int size = 0;
     vector<float> pontos;
+    vector<float> texturas;
+    vector<float> normals;
     ifstream file("3dFiles/" + texto);  
     if (file.is_open()) {
 
         string line;
         int j =0;
+
+        // Skip number of points in file
+        getline(file, line);
+
+        // Check if there's normals in the file
+        getline(file, line);
+        bool b_normals;
+        line == "true" ? b_normals = true : b_normals = false;
+
+        // Check if there's textures in the file
+        getline(file, line);
+        bool b_textures;
+        line == "true" ? b_textures = true : b_textures = false;
+
         while (std::getline(file, line)) {
-            if(j!=0){
                 vector<string> row; // create vector to hold row data
                 stringstream ss(line); // create stringstream from line
                 string cell;
-                while (getline(ss, cell, ',')) { // parse each cell of row based on comma delimiter
-                    row.push_back(cell);
-                }
+				Model drawObject(string texto){
                 pontos.push_back(stof(row[0]));
                 pontos.push_back(stof(row[1]));
                 pontos.push_back(stof(row[2]));
-                size += 1;
-            }    
-            j=1;            
+                if(b_normals){
+                    normals.push_back(stof(row[0]));
+                    normals.push_back(stof(row[1]));
+                    normals.push_back(stof(row[2]));
+                }
+
+                if(b_textures){
+                    texturas.push_back(stof(row[0]));
+                    texturas.push_back(stof(row[1]));
+                    texturas.push_back(stof(row[2]));
+                }
+                size += 1;           
         }
     file.close(); // close the file
+
     }else {
         cerr << "Unable to open file." << endl;
     }
+
 	GLuint verticeCount = (GLuint) (size);
-	GLuint vbo_ind;
+	GLuint p_vbo_ind;
+	GLuint n_vbo_ind = 0;
+	GLuint t_vbo_ind = 0;
     std::cout << glGenBuffers << std::endl;
-	glGenBuffers(1, &vbo_ind);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_ind);
+	glGenBuffers(1, &p_vbo_ind);
+	glBindBuffer(GL_ARRAY_BUFFER, p_vbo_ind);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * pontos.size(), pontos.data(), GL_STATIC_DRAW);
 
-	return Model(vbo_ind, verticeCount);
+    if (b_normals) {
+		// Push normals to VBO
+		glGenBuffers(1, &n_vbo_ind);
+		glBindBuffer(GL_ARRAY_BUFFER, n_vbo_ind);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.size(), normals.data(), GL_STATIC_DRAW);
+	}
+
+	if (b_textures) {
+		// Push textures to VBO
+		glGenBuffers(1, &t_vbo_ind);
+		glBindBuffer(GL_ARRAY_BUFFER, t_vbo_ind);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * texturas.size(), texturas.data(), GL_STATIC_DRAW);
+	}
+
+
+	return Model(p_vbo_ind, n_vbo_ind, t_vbo_ind, verticeCount);
 }
 
 void drawGroup(Group g){

@@ -515,7 +515,7 @@ int main(int argc, char** argv){
         writePointsToFile(pontos, nullptr, nullptr, file);
     }
     else if (strcmp(argv[1], "sphere") == 0){
-        pontos = sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]));
+        sphere(stof(argv[2]), stof(argv[3]), stof(argv[4]),&pontos,&normais,&texturas);
         file = argv[5];
         file = "3dFiles/" + file;
         writePointsToFile(pontos, &normais, &texturas, file);

@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#ifdef __APPLE__
+#ifdef APPLE
 #include <GLUT/glut.h>
 #else
 #include <GL/glew.h>

@@ -1,3 +1,10 @@
+#include <stdlib.h>
+#ifdef APPLE
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 #include <string>
 #include <sstream>
 #include <vector>
