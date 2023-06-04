@@ -216,7 +216,7 @@ void drawGroup(Group g){
         }
 
         glDrawArrays(GL_TRIANGLES, 0, m.getVerticeCount());
-
+		glScalef(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, 0);
 
     }
