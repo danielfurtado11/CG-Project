@@ -371,7 +371,7 @@ void sphere(float raio, int slices, int stacks,vector <Ponto>*p, vector <Ponto>*
 		
 		for (int j = 0; j < stacks; j++){
 			if(j == 0){
-                Ponto ponto_1 = Ponto(0.0, -raio, 0.0);
+                Ponto ponto_1 = Ponto(0.0f, -raio, 0.0f);
                 Ponto ponto_2 = Ponto(raio * cos(temp_aStack) * sin(temp_aSlice), raio * sin(temp_aStack), raio * cos(temp_aStack) * cos(temp_aSlice));
                 Ponto ponto_3 = Ponto(raio * cos(temp_aStack) * sin(aSlice), raio * sin (temp_aStack) , raio * cos(temp_aStack) * cos(aSlice));
                 pontos.push_back(ponto_1);
@@ -388,9 +388,9 @@ void sphere(float raio, int slices, int stacks,vector <Ponto>*p, vector <Ponto>*
                 texturas.push_back((temp_aStack + M_PI_2)/M_PI);
 
 			}else if(j == stacks-1){
-                Ponto ponto_1 = Ponto(0.0, raio, 0.0);
+                Ponto ponto_3 = Ponto(0.0f, raio, 0.0f);
                 Ponto ponto_2 = Ponto(raio * cos(aStack) * sin(temp_aSlice), raio * sin(aStack), raio * cos(aStack) * cos(temp_aSlice));
-                Ponto ponto_3 = Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice));
+                Ponto ponto_1 = Ponto(raio * cos(aStack) * sin(aSlice), raio * sin(aStack), raio * cos(aStack) * cos(aSlice));
                 pontos.push_back(ponto_1);
                 pontos.push_back(ponto_2);
                 pontos.push_back(ponto_3);

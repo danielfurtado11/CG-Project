@@ -62,7 +62,7 @@ Model drawObject(string texto){
     getline(file, line);
     line == "true" ? b_textures = true : b_textures = false;
 
-    // Read from file
+    
         // Read points from file
         for (int j = 0; j < nr_points; j++) {
             getline(file, line);
@@ -73,15 +73,35 @@ Model drawObject(string texto){
             while (getline(tokenStream, token, ',')) {
                 pontos.push_back(atof(token.c_str()));
 				size+=1;
+            }
+        }
 
-				if(b_normals){
-					normals.push_back(atof(token.c_str()));
-				}
+        // Read normals from file
+        if (b_normals) {
+            for (int j = 0; j < nr_points; j++) {
+                getline(file, line);
 
-				if(b_textures){
-					texturas.push_back(atof(token.c_str()));
-				}
-            }	
+                string token;
+                istringstream tokenStream(line);
+
+                while (getline(tokenStream, token, ',')) {
+                    normals.push_back(atof(token.c_str()));
+                }
+            }
+        }
+
+        // Read textures from file
+        if (b_textures) {
+            for (int j = 0; j < nr_points; j++) {
+                getline(file, line);
+
+                string token;
+                istringstream tokenStream(line);
+
+                while (getline(tokenStream, token, ',')) {
+                    texturas.push_back(atof(token.c_str()));
+                }
+            }
         }
 
         file.close();
